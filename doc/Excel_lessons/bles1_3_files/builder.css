@@ -1,0 +1,169 @@
+INPUT.edit {
+	BACKGROUND: white;
+	BORDER-BOTTOM: #1566A2 1px solid;
+	BORDER-LEFT: #1566A2 1px solid;
+	BORDER-RIGHT: #1566A2 1px solid;
+	BORDER-TOP: #1566A2 1px solid;
+	COLOR: #000000;
+	FONT-SIZE: 10px;
+	FONT-WEIGHT: bold;
+	MARGIN-BOTTOM: 2px;
+	font-family: Arial, Helvetica, sans-serif
+}
+TEXTAREA.sin {
+	BORDER-BOTTOM: #1566A2 1px solid;
+	BORDER-LEFT: #1566A2 1px solid;
+	BORDER-RIGHT: #1566A2 1px solid;
+	BORDER-TOP: #1566A2 1px solid;
+	COLOR: Black;
+	FONT-FAMILY: Arial, Helvetica, sans-serif;
+	FONT-SIZE: 12px
+}
+
+INPUT.btn {
+	BACKGROUND: 1566A2;
+	BORDER-BOTTOM: blue 1px solid;
+	BORDER-LEFT: blue 1px solid;
+	BORDER-RIGHT: blue 1px solid;
+	BORDER-TOP: blue 1px solid;
+	COLOR: Yellow;
+	FONT-SIZE: 10px;
+	MARGIN-BOTTOM: 2px;
+	font-family: Arial, Helvetica, sans-serif
+}
+
+INPUT.btn2 {
+	FONT-SIZE: 10px;
+}
+
+INPUT.edit12 {
+	BACKGROUND: white;
+	BORDER-BOTTOM: 1px solid;
+	BORDER-LEFT: 1px solid;
+	BORDER-RIGHT: 1px solid;
+	BORDER-TOP: 1px solid;
+	COLOR: #000000;
+	FONT-SIZE: 12px;
+	MARGIN-BOTTOM: 2px;
+}
+TEXTAREA.tarn12
+{
+	BORDER-BOTTOM: black 1px solid;
+	BORDER-LEFT: black 1px solid;
+	BORDER-RIGHT: black 1px solid;
+	BORDER-TOP: black 1px solid;
+	COLOR: Black;
+	FONT-SIZE: 12
+}
+INPUT.btn12 {
+	BACKGROUND: #e1ecf6;
+	COLOR: Black;
+	FONT-SIZE: 12px;
+	MARGIN-BOTTOM: 2px;
+	font-family: Arial, Helvetica, sans-serif;
+	border-bottom : black 1px solid;
+	border-left : black 1px solid;
+	border-right : black 1px solid;
+	border-top : black 1px solid;
+}
+
+td {font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif; font-size: 11px; text-decoration: none }
+td.p {font-family: Arial; font-size: 11px; text-decoration: none}
+.m {font-family: Arial; font-size: 10px; text-decoration: none; font-weight: bold; color: #d63918}
+.m1 {
+	font-family: Arial;
+	font-size: 12px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #e1ecf6
+}
+.m2 {
+	font-family: Arial;
+	font-size: 12px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #000066
+}
+.m3 {font-family: Arial; font-size: 11px; text-decoration: none; font-weight: bold; color: #ffffff}
+.m4 {font-family: Arial; font-size: 19px; text-decoration: blink; font-weight: bold; color: #000099; font-style: italic}
+.m5 {
+	font-family: Arial;
+	font-size: 12px;
+	text-decoration: none;
+	font-weight: none;
+	font-style: italic;
+	color: #003366
+}
+.m6 {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 12px;
+	text-decoration: none;
+	font-weight: none;
+	color: #000066
+}
+.m7 {
+	font-family: Arial;
+	font-size: 12px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #ff0000
+}
+.m8 { font-family: Arial; font-size: 10px; font-weight:bold; text-decoration: underline;  }
+.small { font-family: Arial; font-size: 11px; text-decoration: none ;color: #000066}
+.small1 { font-family: Arial; font-size: 9px; text-decoration: none }
+.small2 { font-family: Arial; font-size: 11px; text-decoration: none; font-weight: bold;}
+
+.DA   
+  { font-family: verdana,tahoma ;
+              
+    font-weight:lighter;
+    font-variant:small-caps;
+    text-align:left;
+    color:#4580A0; }
+     
+BODY
+  { font-family:verdana,tahoma ;
+    font-size:x-small;
+    text-align:justify; }
+
+A {
+        text-decoration:none;
+        color: #000066;
+}
+
+.my{
+        text-decoration:none;
+        color: Blue;
+        font-weight: bold;
+}
+
+A:hover {
+	text-decoration:underline;
+	color: Red;
+}
+
+TABLE.thetable{
+	BORDER-BOTTOM: 1px solid White;
+	BORDER-LEFT: 1px solid White;
+	BORDER-RIGHT: 1px solid White;
+	BORDER-TOP: 1px solid White;
+	background-color : White;
+}
+
+TD.thecapt{
+	BORDER-BOTTOM: #1566A2 1px solid;
+	BORDER-LEFT: #1566A2 1px solid;
+	BORDER-RIGHT: #1566A2 1px solid;
+	BORDER-TOP: #1566A2 1px solid;
+	background-color : #e9efff;
+}
+
+TD.thedesc {
+    BORDER-BOTTOM: #1566A2 1px solid;
+	BORDER-LEFT: #1566A2 1px solid;
+	BORDER-RIGHT: #1566A2 1px solid;
+	BORDER-TOP: #1566A2 1px solid;
+	background-color : White;
+} 
+
+

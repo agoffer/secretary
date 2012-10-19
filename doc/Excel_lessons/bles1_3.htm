@@ -1,0 +1,198 @@
+<html><head>
+
+
+
+<title>Работа с Exсel из приложения, написанного на C++Builder &nbsp;&nbsp;(часть 3)</title><!-- Meta http equivalent was here                                     --><link href="bles1_3_files/builder.css" rel="stylesheet" type="text/css"></head><body>
+<div align="left"><em><strong>http://cbuilder.ru</strong></em></div>
+<h5 align="center"><font color="#000099">Работа с Exсel из приложения, написанного 
+  на C++Builder<strong> &nbsp;&nbsp;(часть 3)</strong></font><strong><br>
+  </strong></h5>
+<table align="center" border="0" cellspacing="10" height="171" width="90%">
+  <tbody><tr>
+    <td>Итак, начинаем третий урок по работе с Excel из C++Builder.<br>
+      Мы рассмотрим работу с шаблонами (.xlt) и использование макросов. 
+      <p>В предыдущих уроках мы сами формировали отчет в Excel, от начала и до 
+        конца,<br>
+        но это не всегда удобно, иногда проще создать нужную форму отчета (шаблон 
+        .xlt),<br>
+        а уже потом выводить в нее данные (например из базы данных).<br>
+        Особенно это удобно, если форма отчета может незначительно измениться,<br>
+        тогда нет необходимости вносить изменения в проект на C++Builder,<br>
+        достаточно будет лишь изменить шаблон.<br>
+        Кроме того, часть информации рассчитывается по формулам, записанным в 
+        шаблон,<br>
+        и при изменении этих формул, также нет необходимости вносить изменения 
+        <br>
+        в проект на C++Builder,достаточно изменить формулу в шаблоне.</p>
+      <p>Давайте рассмотрим этот вариант.</p>
+      <p>У нас есть некая база данных, и в ней таблица поставщиков <strong>SaleMan</strong><br>
+        и связанная с ней таблица товаров <strong>Goods</strong>, которые они 
+        поставляют.<br>
+        Создадим на их основе отчет "<em><font color="#0000cc">Счет-фактура</font></em>" 
+        и "<em><font color="#0000cc">Накладная</font></em>" по<br>
+        выбранному поставщику.</p>
+      <p>Оба отчета будут использовать один шаблон (.xlt) и выводиться в один 
+        файл (.xls)<br>
+        (на одном листе WorkSheets 1 - Счет-фактура, на другом WorkSheets 2 - 
+        Накладная)<br>
+        Создадим шаблон отчета (рассмотрите прилагаемый файл NaclSf.xlt)<br>
+        Всем полям, в которые будут выводиться данные, дадим интуитивно понятные 
+        <br>
+        имена.</p>
+      <p>Например: <font color="#000099">НомерНАКЛ , ДатаНАКЛ, ПоставщикНАКЛ, 
+        ИННПНАКЛ, НомерСФ , ДатаСФ</font> и др.</p>
+      <p>Формат таблиц SaleMan и Goods следующий:</p>
+      <strong>SaleMan</strong><br>
+      <br>
+      <table border="1" cellspacing="5" width="500">
+        <tbody><tr>
+          <td width="95"><font color="#000099">ID</font></td>
+          <td width="96"><font color="#000099">integer</font></td>
+          <td width="275"><font color="#000099">ID поставщика</font></td>
+        </tr>
+        <tr>
+          <td><font color="#000099">Org</font></td>
+          <td><font color="#000099"> string</font></td>
+          <td><font color="#000099">Hазвание организации-поставщика</font></td>
+        </tr>
+        <tr>
+          <td><font color="#000099">Addr</font></td>
+          <td><font color="#000099"> string</font></td>
+          <td><font color="#000099">Адрес поставщика</font></td>
+        </tr>
+        <tr>
+          <td><font color="#000099">InnOrg</font></td>
+          <td><font color="#000099"> string</font></td>
+          <td><font color="#000099">ИНН постащика</font></td>
+        </tr>
+      </tbody></table>
+      <br>
+      <strong>Goods</strong> <br>
+      <br>
+      <table border="1" cellspacing="5" width="501">
+        <tbody><tr> 
+          <td width="93"><font color="#000099"> ID</font></td>
+          <td width="98"><font color="#000099"> integer</font></td>
+          <td width="276"><font color="#000099">ID товара</font></td>
+        </tr>
+        <tr> 
+          <td height="24"><font color="#000099">IDSale</font></td>
+          <td><font color="#000099"> integer</font></td>
+          <td><font color="#000099">поставщик товара</font></td>
+        </tr>
+        <tr> 
+          <td><font color="#000099">Name</font></td>
+          <td><font color="#000099">string</font></td>
+          <td><font color="#000099"> наименование товара</font></td>
+        </tr>
+        <tr> 
+          <td><font color="#000099">Izmer</font></td>
+          <td><font color="#000099">string</font></td>
+          <td><font color="#000099"> единица измерения </font></td>
+        </tr>
+        <tr>
+          <td><font color="#000099">Count</font></td>
+          <td><font color="#000099">float</font></td>
+          <td><font color="#000099">количество</font></td>
+        </tr>
+        <tr>
+          <td><font color="#000099">Price</font></td>
+          <td><font color="#000099">float</font></td>
+          <td><font color="#000099">цена за ед изм</font></td>
+        </tr>
+      </tbody></table>
+      <p>---</p>
+      <p>Разумеется это крайне обрезанный и упрощенный вариант, удобный для примера.</p>
+      <p>Variant App, Sh;<br>
+        TDate Today = Now();</p>
+      <p>// устанавливаем путь к файлу шаблона<br>
+        AnsiString sFile = GetCurrentDir()+"\\NaclSf.xlt";</p>
+      <p>// инициализируем Excel, открываем этот шаблон<br>
+        try {<br>
+        App=Variant::GetActiveObject("Excel.Application");<br>
+        } catch(...) {<br>
+        try { App=Variant::CreateObject("Excel.Application"); }<br>
+        catch (...) {<br>
+        Application-&gt;MessageBox("Невозможно открыть Microsoft Excel!"<br>
+        " Возможно этого приложения на компьютере не установлено.","Ошибка",MB_OK+MB_ICONERROR);<br>
+        }}<br>
+        try {<br>
+        App.OlePropertyGet("WorkBooks").OleProcedure("Open",sFile.c_str(),0,false,1);<br>
+        Sh=App.OlePropertyGet("WorkSheets",1);<br>
+        } catch(...) {<br>
+        Application-&gt;MessageBox("Ошибка открытия книги Microsoft Excel!","Ошибка",MB_OK+MB_ICONERROR);<br>
+        }</p>
+      <p>// выводим в шаблон данные<br>
+        // сначала заголовок<br>
+        toExcel(App,"НомерНАКЛ",SaleManID-&gt;Value);<br>
+        toExcel(App,"ДатаНАКЛ",Today.DateString());<br>
+        toExcel(App,"ПоставщикНАКЛ",SaleManOrg-&gt;Value.c_str());<br>
+        toExcel(App,"ИННПНАКЛ",SaleManInn-&gt;Value.c_str());</p>
+      <p> toExcel(App,"НомерСФ",SaleManID-&gt;Value);<br>
+        toExcel(App,"ДатаСФ",Today.DateString());<br>
+        toExcel(App,"АдресПСФ",SaleManAddr-&gt;Value.c_str());<br>
+        toExcel(App,"ПоставщикСФ",SaleManOrg-&gt;Value.c_str());<br>
+        toExcel(App,"ИННПСФ",SaleManInn-&gt;Value.c_str());</p>
+      <p> // определяем в n количество товара (строк для ввода в шаблон)<br>
+        Goods-&gt;First();<br>
+        int n = 0; while(!Goods-&gt;Eof) { n++; Goods-&gt;Next(); }<br>
+        // или int n = Goods-&gt;RecordCount;</p>
+      <p> // вставляем в шаблон нужное количество строк<br>
+        Variant C;<br>
+        App.OlePropertyGet("WorkSheets",1).OleProcedure("Select");<br>
+        C=App.OlePropertyGet("Range","ТоварСФ");<br>
+        C=App.OlePropertyGet("Rows",(int) C.OlePropertyGet("Row")+1);<br>
+        for(int i=1;i&lt;n;i++) C.OleProcedure("Insert");</p>
+      <p> App.OlePropertyGet("WorkSheets",2).OleProcedure("Select");<br>
+        C=App.OlePropertyGet("Range","ТоварНАКЛ");<br>
+        C=App.OlePropertyGet("Rows",(int) C.OlePropertyGet("Row")+1);<br>
+        for(int i=1;i&lt;n;i++) C.OleProcedure("Insert");</p>
+      <p> // вывод данных из накладной в эти строки<br>
+        Goods-&gt;First();<br>
+        int i = 0;<br>
+        while(!Goods-&gt;Eof){<br>
+        toExcel(App,"ТоварСФ",i,GoodsName-&gt;Value.c_str());<br>
+        toExcel(App,"ТоварНАКЛ",i,GoodsName-&gt;Value.c_str());<br>
+        toExcel(App,"НомерППНАКЛ",i,i+1);<br>
+        toExcel(App,"СтранаСФ",i,"Россия");<br>
+        toExcel(App,"ЕдизмСФ",i,GoodsIzmer-&gt;Value.c_str());<br>
+        toExcel(App,"ЕдизмНАКЛ",i,GoodsIzmer-&gt;Value.c_str());<br>
+        toExcel(App,"КолСФ",i,GoodsCount-&gt;Value);<br>
+        toExcel(App,"КолНАКЛ",i,GoodsCount-&gt;Value);<br>
+        toExcel(App,"ЦенаСФ",i,GoodsPrice-&gt;Value);<br>
+        toExcel(App,"ЦенаНАКЛ",i,GoodsPrice-&gt;Value);<br>
+        toExcel(App,"СтоимСФ",i,GoodsPrice-&gt;Value*GoodsCount-&gt;Value);<br>
+        toExcel(App,"СтоимостьСНДССФ",i,(GoodsPrice-&gt;Value*GoodsCount-&gt;Value*5)/100.);<br>
+        toExcel(App,"ВсегоНАКЛ",i,GoodsPrice-&gt;Value*GoodsCount-&gt;Value);<br>
+        toExcel(App,"СуммаНДССФ",i,(GoodsPrice-&gt;Value*GoodsCount-&gt;Value*5)/100.);<br>
+        toExcel(App,"СуммаНДСНАКЛ",i,(GoodsPrice-&gt;Value*GoodsCount-&gt;Value*5)/100.);<br>
+        i++; Goods-&gt;Next();<br>
+        }</p>
+      <p> // и наконец, делаем Excel видимым <br>
+        App.OlePropertySet("Visible",true);</p>
+      <p>Полный проект примера к C++Builder 6 с шаблоном и таблицами <strong><font color="#0000cc"><a href="http://www.cbuilder.ru/WinLesson/ziples/xlt.rar">можно 
+        скачать здесь (12 Кб)</a></font></strong></p>
+      <p>----</p>
+      <p>Теперь об использовании макросов.</p>
+      <p>Практически любые наши действия в Excel могут быть описаны с помощью 
+        макросов.<br>
+        Создадим и запишем в шаблоне новый макрос, дадим ему имя. (например MyMacros1)<br>
+        Всё !!!<br>
+        Теперь запустим макрос на выполнение</p>
+      <p>App.OleProcedure("Run","MyMacros1");</p>
+      <p>и необходимые действия из макроса будут выполнены.<br>
+        Разумеется, нужно, чтобы эти макросы были подготовлены заранее<br>
+        и сохранены в шаблоне, а уже при формировании отчета (.xls) на<br>
+        основании этого шаблона (.xlt), макросы можно будет применять.</p>
+      <p>Все замечания и предложения и добавления: <a href="mailto:support@cbuilder.ru">support@cbuilder.ru</a><br>
+        Если Вы используете Excel или Word в работе с C++Builder, <br>
+        присылайте примеры, проекты и интересные решения нам,<br>
+        а также если у вас остались вопросы - спрашивайте.<br>
+      </p>
+      <p></p></td>
+  </tr>
+</tbody></table>
+<hr align="center" width="90%">
+<div align="center"> <span class="m2"><a href="mailto:support@cbuilder.ru">support@cbuilder.ru</a></span></div>
+
+</body></html>

@@ -1,0 +1,214 @@
+<html><head>
+
+
+
+<title>Урок 1. Часть 1. Работа с Excel из C++Builder</title><!-- Meta http equivalent was here                                     --><link href="bles1_files/builder.css" rel="stylesheet" type="text/css"></head><body>
+<div align="left"><em><strong>http://cbuilder.ru</strong></em></div>
+<h5 align="center">Работа с Exсel из приложения, написанного на C++Builder<strong> 
+  &nbsp;&nbsp;(часть 1)</strong></h5>
+<table align="center" border="0" width="760">
+  <tbody><tr>
+    <td>Часто задают вопрос, как можно передать данные в Excel и управлять 
+      им из приложения, написанного на C++Builder<br>
+      Для этого есть несколько путей. Рассмотрим один из вариантов - как это сделать 
+      через технологию OLE, не используя<br>
+      компоненты
+        с вкладки Office97 палитры компонентов.<br>
+      Мы можем вывести данные в новый файл Excel, или заранее создать шаблон .xlt 
+      и выводить данные в шаблон.<br>
+        На этом уроке мы создадим новый файл (новую книгу)<br>
+        Пример с шаблоном рассмотрим в следующем уроке.<br><br>
+      Давайте построим простое приложение C++Builder и передадим из него:<br>
+        данные, формулы и сохраним получившийся файл на диске, после чего можем 
+        и закрыть Excel.<br>
+        Итак, создаем новое приложение C++Builder, назовем файл с формой main.cpp 
+        и форма по умолчанию Form1.<br>
+        Для удобства вынесем все наши действия в отдельные функции.<br>
+        Разместим на форме Form1 кнопку bToExcel и 2 компонента DateTimePicker, 
+        назовем их DTP1 и DTP2<br><br>
+      Присвоим в конструкторе формы им значения 
+      <pre><span class="m6">//---------------------------------------------------------------------------
+<strong>__fastcall</strong> TForm1::TForm1(TComponent* Owner)
+        : TForm(Owner)
+{
+  DTP1-&gt;Date = Now() - 30;
+  DTP2-&gt;Date = Now();
+}
+//----------------------------------------------------------------------------</span>
+
+Объявим в main.h в секции private используемые переменные и функции:
+
+<span class="m6">//----------------------
+<strong>private:</strong>	// User declarations
+        <strong>void __fastcall</strong> ExcelInit(String File);
+        <strong>void __fastcall</strong> formulaExcel(<strong>int</strong> sRow, <strong>int</strong> sColumn, <strong>int</strong> row);
+        <strong>void __fastcall</strong> toExcelCell(<strong>int</strong> c1,<strong>int</strong> c2, String data);
+        <strong>void __fastcall</strong> toExcelCell(<strong>int</strong> c1,<strong>int</strong> c2, Variant data);
+        Variant App,Sh;
+        <strong>void</strong> MakeReport();
+//----------------------</span>
+
+
+Напишем пример-функцию MakeReport(), которая это все делает
+(вызываться может, например, по нажатию кнопки bToExcel
+в обработчике нажатия кнопки)
+<span class="m6">
+<strong>void __fastcall</strong> TForm1::bToExelClick(TObject *Sender)
+{
+    MakeReport();    
+}
+
+//-----------------------------------------------------------------</span>
+
+// а вот и вся программа
+<span class="m6">
+<strong>void</strong> TForm1::MakeReport()
+{
+    // запускаем Excel
+    ExcelInit("");
+
+    // записываем в него заголовки
+    toExcelCell(1,1,String("Дата"));
+    toExcelCell(1,2,String("Наименование"));
+    toExcelCell(1,3,String("Количество"));
+    toExcelCell(1,4,String("Цена за еденицу"));
+    toExcelCell(1,5,String("Сумма"));
+
+    // записываем в него данные
+    <strong>for</strong>(<strong>int</strong> i=0; i &lt; 30; i++){
+       toExcelCell(i+2, 1, Variant(DTP1-&gt;Date + i));
+       AnsiString s = "Молоко "+IntToStr(i+1)+"% жирности";
+       toExcelCell(i+2, 2, String(s));
+       toExcelCell(i+2, 3, Variant(i*2+3));
+       toExcelCell(i+2, 4, Variant(i*17.5+1));
+       toExcelCell(i+2, 5, Variant((i*2+3) * (i*17.5+1)));
+       }
+
+    toExcelCell(32,1,String("Итого"));
+
+    // записываем 2 формулы (диапазон значений)
+    formulaExcel(32, 3, 30);
+    formulaExcel(32, 5, 30);
+
+    // еще формула
+    toExcelCell(34,1,String("Налог 5%"));
+    App.OlePropertyGet("Cells", 34, 5).OlePropertySet("Formula", String("=E32*5%").c_str());
+
+    // делаем его видимым
+    <strong>if</strong>(!App.IsEmpty())App.OlePropertySet("Visible",<strong>true</strong>);
+
+    // сохраняем его на диске в файл MyTest.xls
+    <strong>try</strong>{
+      App.OlePropertyGet("WorkBooks",1).OleProcedure("SaveAs","MyTest");
+      }<strong>catch</strong>(...){
+         ShowMessage("Не забудьте сохранить сделанные изменения !");
+         }
+
+     // можем при желании и сразу закрыть, если закрывать не нужно - удалите этот блок
+     //---
+     <strong>try</strong>{
+       App.OlePropertyGet("WorkBooks",1).OleProcedure("Close");
+       }<strong>catch</strong>(...){
+          ShowMessage("Не забудьте сами закрыть Excel.");
+      }
+     //---
+
+    // освобождаем ресурсы
+    Sh.Clear();
+    App.Clear();
+}
+
+//------------------------------------------------------------------------</span>
+
+Функция ExcelInit() - подключение к Excel.
+
+Прежде всего нам нужно запустить программу Excel (или если Excel запущен - подключиться к нему)
+
+<span class="m6"><strong>void __fastcall</strong> TForm1::ExcelInit(String File)
+{
+  // если Excel запущен - подключиться к нему 
+  <strong>try</strong> {
+   App=Variant::GetActiveObject("Excel.Application");
+  } <strong>catch</strong>(...) {
+     // Excel не запущен - запустить его
+     <strong>try</strong> { App=Variant::CreateObject("Excel.Application"); } <strong>catch</strong> (...) {
+      Application-&gt;MessageBox("Невозможно открыть Microsoft Excel!"
+      "Возможно Excel не установлен на компьютере.","Ошибка",MB_OK+MB_ICONERROR);
+  } }
+  <strong>try</strong> {
+    <strong>if</strong>(File!="")
+     App.OlePropertyGet("WorkBooks").OleProcedure("Open",File);
+    <strong>else</strong>
+     App.OlePropertyGet("WorkBooks").OleProcedure("add");
+    Sh=App.OlePropertyGet("WorkSheets",1);
+  } <strong>catch</strong>(...) {
+    Application-&gt;MessageBox("Ошибка открытия книги Microsoft Excel!",
+                                         "Ошибка",MB_OK+MB_ICONERROR);
+  }
+}/* ExcelInit() */
+//----------------------------------------------------------------</span>
+
+Теперь напишем функцию toExcelCell() передачи данных в Excel в указанный столбец и строку
+
+<span class="m6"><strong>void __fastcall</strong> TForm1::toExcelCell(<strong>int</strong> Row,<strong>int</strong> Column, AnsiString data)
+{
+  <strong>try</strong> {
+    Variant  cur = Sh.OlePropertyGet("Cells", Row,Column);
+    cur.OlePropertySet("Value", data.c_str());
+  } <strong>catch</strong>(...) { ; }
+}/* toExcelCell() */
+//------------------------------------------------------------------------
+<strong>void __fastcall</strong> TForm1::toExcelCell(<strong>int</strong> Row,<strong>int</strong> Column, Variant data)
+{
+  <strong>try</strong> {
+    Variant  cur = Sh.OlePropertyGet("Cells", Row,Column);
+    cur.OlePropertySet("Value", data);
+  } <strong>catch</strong>(...) { ; }
+}/* toExcelCell() */
+//---------------------------------------------------------------------------</span>
+
+И, наконец, функция передачи формулы
+
+<span class="m6"><strong>void __fastcall</strong> TForm1::formulaExcel(<strong>int</strong> sRow, <strong>int</strong> sColumn, <strong>int</strong> row)
+{
+   <strong>try</strong> {
+    App.OlePropertyGet("Cells", sRow, sColumn).OlePropertySet("FormulaR1C1", 
+	                    ("=СУММ(R[-"+AnsiString(row)+"]C:R[-1]C)").c_str());
+  } <strong>catch</strong>(...) { ; }
+}/* formulaExcel() */
+//---------------------------------------------------------------------------</span>
+</pre>
+      Ну вот приложение и готово.<br>
+      Если Вам не хочется набирать вручную, готовый пример проекта к C++Builder 
+      6 можно <a href="http://www.cbuilder.ru/WinLesson/ziples/toExcel11.rar">скачать здесь (.rar 5 Кб)</a><br>
+      Запустите его, откомпилируйте и посмотрите результат.<br>
+      Теперь также просто Вы можете в своих программах это все повторить.<br>
+      Точно также передаваемые данные можно взять из БД, нужным образом обработать 
+      и передать в Excel.<br>
+      Для того, чтобы посмотреть что еще и как можно делать с Excel Вы можете 
+      запустить Excel, <br>
+      зайти в редактор по VisualBasic и посмотреть там какие еще команды (функции) 
+      есть для управления.<br>
+      А на следующем уроке мы поговорим о том, как можно передать данные в шаблон 
+      (.xlt)</td>
+  </tr>
+</tbody></table>
+<hr align="center" width="90%">
+<div align="center"> <span class="m2"><a href="mailto:support@cbuilder.ru">support@cbuilder.ru</a></span><br>
+<!-- SpyLOG f:0211 --> 
+<script language="javascript"><!-- 
+Mu="u3725.34.spylog.com";Md=document;Mnv=navigator;Mp=1; 
+Mn=(Mnv.appName.substring(0,2)=="Mi")?0:1;Mrn=Math.random(); 
+Mt=(new Date()).getTimezoneOffset(); 
+Mz="p="+Mp+"&rn="+Mrn+"&t="+Mt; 
+My=""; 
+My+="<a href='http://"+Mu+"/cnt?cid=372534&f=3&p="+Mp+"&rn="+Mrn+"' target='_blank'>"; 
+My+="<img src='http://"+Mu+"/cnt?cid=372534&"+Mz+"&r="+escape(Md.referrer)+"&pg="+escape(window.location.href)+"' border=0 width=1 height=1 alt='SpyLOG'>"; 
+My+="</a>";Md.write(My);//--></script><a href="http://u3725.34.spylog.com/cnt?cid=372534&amp;f=3&amp;p=1&amp;rn=0.06836528893755311" target="_blank"><img src="bles1_files/cnt.gif" alt="SpyLOG" border="0" height="1" width="1"></a><noscript> 
+<a href="http://u3725.34.spylog.com/cnt?cid=372534&f=3&p=1" target="_blank"> 
+<img src="http://u3725.34.spylog.com/cnt?cid=372534&p=1" alt='SpyLOG' border='0' width=1 height=1 > 
+</a></noscript> 
+<!-- SpyLOG -->
+
+</div>
+</body></html>

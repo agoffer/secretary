@@ -1,0 +1,245 @@
+<html><head>
+
+
+
+<title>Работа с Excel из C++Builder (часть 2)</title><!-- Meta http equivalent was here                                     --><link href="bles1_2_files/builder.css" rel="stylesheet" type="text/css"></head><body>
+<div align="left"><em><strong>http://cbuilder.ru</strong></em></div>
+<h5 align="center"><font color="#000099">Работа с Exсel из приложения, написанного 
+  на C++Builder<strong> &nbsp;&nbsp;(часть 2)</strong></font><strong><br>
+  </strong></h5>
+<table align="center" border="0" cellpadding="10" height="96" width="95%">
+  <!--DWLayoutTable-->
+  <tbody><tr>
+    <td width="100%">Итак, начинаем второй урок по работе с Excel из C++Builder. <p>Первый 
+        урок был достаточно коротким, после него возникло множество вопросов <br>
+        и в этом уроке мы попытаемся ответить на многие из них.<br>
+        Кроме того, на многие вопросы ответили Вы сами,<br>
+        прислав на <a href="mailto:support@cbuilder.ru">support@cbuilder.ru</a> 
+        примеры своих работ с Excel.</p>
+      <p>Все ответы и примеры построены на программном коде первого урока<br>
+        (<a href="http://www.cbuilder.ru/WinLesson/bles1.htm" target="_blank">http://cbuilder.ru/WinLesson/bles1.htm</a>)</p>
+      <p>-----------------------------------------</p>
+      <p>Список вопросов, ответы на которые приводятся в данном уроке.</p>
+      <p>1 Как получить из ячейки не только ее значение, но и формулу данной ячейки 
+        ?<br>
+        2 Как нарисовать диаграмму ?<br>
+        3 Как нарисовать границы у выбранного диапазона ячеек (бордюр) ?<br>
+        4 Как получить значение какой-либо ячейки ?<br>
+        5 Как задать формат для ячейки ?<br>
+        6 Как установить масштаб для документа ?<br>
+        7 Как выровнять данные в ячейке ?<br>
+        8 Как установить высоту строки ?<br>
+        9 Как установить ширину столбца ?<br>
+        10 Как установить цвет ячеек ?<br>
+        11 Как задать количество листов в книге ?<br>
+        12 Как дать название листу ?<br>
+        13 Как сохранить получившийся документ ?<br>
+        14 Как установить настройки при печати ?<br>
+        14 Как распечатать получившийся документ ?<br>
+        15 Как закрыть документ Excel ?</p>
+      <p>и множество других...<br>
+        ------------------------------------------<br>
+        <br>
+        Для того, чтобы лучше понять работу с Excel, рассмотрим иерархию объектов 
+        в Excel.<br>
+        <br>
+        <img src="bles1_2_files/ierExcel.gif" height="226" width="344"><br>
+        Примерная иерархия вложенных объектов OLE-сервера.<br>
+        <br>
+        Итак, на вершине - объект Application (у нас в примере Variant App),<br>
+        Workbooks - книга (не используем), работаем сразу с листом - WorkSheets 
+        - у нас Variant Sh,<br>
+        группы ячеек Cells - для них используем объект Variant Rang;<br>
+        <br>
+        "Свойствами объектов Excel могут являться так называемые коллекции 
+        объектов.<br>
+        Например, коллекция Workbooks является свойством объекта Excel.Application, 
+        при этом она содержит<br>
+        набор вложенных объектов - рабочих книг Excel, а те, в свою очередь, обладают 
+        свойством Worksheets,<br>
+        представляющим собой коллекцию рабочих листов, каждый из которых обладает 
+        свойством Cells,<br>
+        являющимся коллекцией ячеек. <br>
+        Аналогично, коллекция Charts также является свойством рабочей книги"<br>
+        из статьи "<font color="#000066">Создание контроллеров автоматизации 
+        с помощью C++Builder"</font> Наталия Елманова<br>
+        <br>
+        Итак, запускаем предыдущий проект и добавляем в него следующий код.</p>
+      <p><font color="#0000cc">Вопрос. У меня в ячейке есть число, но оно рассчитывается 
+        по формуле в этой ячейке.<br>
+        Как получить из ячейки не только ее значение, но и формулу данной ячейки 
+        ?</font></p>
+      <p>// получить формулу из ячейки<br>
+        Variant __fastcall TForm1::fromExcelFormula(int Row, int Column)<br>
+        {<br>
+        try{<br>
+        Variant result,cur;<br>
+        cur = Sh.OlePropertyGet("Cells",Row,Column);<br>
+        result = cur.OlePropertyGet("Formula");<br>
+        return result;<br>
+        }catch(...) {;}<br>
+        }<br>
+        // получаем значение и формулу из ячейки 34,5<br>
+        void __fastcall TForm1::Button1Click(TObject *Sender)<br>
+        {<br>
+        Label3-&gt;Caption = fromExcelCell(34,5); // получить значение из ячейки<br>
+        Label4-&gt;Caption = fromExcelFormula(34,5); // получить формулу из ячейки<br>
+        }<br>
+        //-----------------------------------------------</p>
+      <p><font color="#0000cc">Вопрос. Как нарисовать диаграмму ?</font></p>
+      <p>void __fastcall TForm1::Button5Click(TObject *Sender)<br>
+        {<br>
+        Variant Chart;<br>
+        Chart=App.OlePropertyGet("Charts").OleFunction("Add"); 
+        // добавим объект диаграмму<br>
+        Chart.OlePropertySet("ChartType",65); // установим один из типов 
+        диаграммы</p>
+      <p>// выберем ячейки для построения диаграммы, это строки 3 - 31 и столбец 
+        3<br>
+        Chart.OleProcedure("SetSourceData",Sh.OlePropertyGet("Range",Sh.OlePropertyGet("Cells",3,3),<br>
+        Sh.OlePropertyGet("Cells",31,3)),2);<br>
+        Chart.OlePropertyGet("SeriesCollection",1).OlePropertySet("XValues",Sh.OlePropertyGet("Range",<br>
+        Sh.OlePropertyGet("Cells",2,3),Sh.OlePropertyGet("Cells",31,3)));<br>
+        Chart.OleProcedure("Location",2,Sh.OlePropertyGet("Name"));<br>
+        // установим место вывода диаграммы<br>
+        // для этого получим UsedRange - испольуемый диапазон ячеек, и отступим 
+        вниз на 25 пикселей<br>
+        Sh.OlePropertyGet("ChartObjects",1).<br>
+        OlePropertySet("Top",Sh.OlePropertyGet("UsedRange").OlePropertyGet("Height")+25);<br>
+        // и слева от края 10 пикселей<br>
+        Sh.OlePropertyGet("ChartObjects",1).OlePropertySet("left",10);<br>
+        // встаем на начало<br>
+        Sh.OlePropertyGet("Cells",1,1).OleProcedure("Select");<br>
+        }<br>
+        //-----------------------------------------------------</p>
+      <p><font color="#0000cc">Вопрос. Как нарисовать границы у выбранного диапазона 
+        ячеек (бордюр) ?</font></p>
+      <p>// Устанавливаем диапазон ячеек для рисования бордюра A2:E31<br>
+        int m = 30;<br>
+        AnsiString s = "A2:E"+IntToStr(m+1);<br>
+        Variant range = App.OlePropertyGet("Range", s.c_str());<br>
+        for (int i=1; i&lt;=4; i++)<br>
+        range.OlePropertyGet("Borders").OlePropertyGet("Item", 
+        i).OlePropertySet("LineStyle", 1);</p>
+      <p>//------------------------------------------------------</p>
+      <p><br>
+        <font color="#0000cc">Вопрос. Как получить значение какой-либо ячейки 
+        ?</font></p>
+      <p>Label3-&gt;Caption = fromExcelCell(34,5); // получить значение ячейки 
+        34,5</p>
+      <p>// получить значение ячейки<br>
+        Variant __fastcall TForm1::fromExcelCell(int Row, int Column)<br>
+        {<br>
+        try{<br>
+        Variant result,cur;<br>
+        cur = Sh.OlePropertyGet("Cells",Row,Column);<br>
+        result = cur.OlePropertyGet("Value");<br>
+        return result;<br>
+        }catch(...) {;}<br>
+        }<br>
+        //-------------------</p>
+      <p><br>
+        <font color="#0000cc">Вопрос. Как задать формат для ячейки ?</font></p>
+      <p> // устанавливаем формат числа для ячейки 1,1<br>
+        Sh.OlePropertyGet("Cells", 1,1).OlePropertySet("NumberFormat", 
+        "0.00");<br>
+        // устанавливаем формат строка для ячейки 1,2<br>
+        Sh.OlePropertyGet("Cells", 1,2).OlePropertySet("NumberFormat", 
+        "@");<br>
+        // устанавливаем формат даты для ячейки 1,3<br>
+        Sh.OlePropertyGet("Cells", 1,3).OlePropertySet("NumberFormat", 
+        "ДД.ММ.ГГГГ");</p>
+      <p>//-------------------</p>
+      <p><font color="#0000cc">Вопрос. Как установить масштаб для документа ?</font></p>
+      <p> // Устанавливаем масштаб = 75%<br>
+        App.OlePropertyGet("ActiveWindow").OlePropertySet("Zoom", 
+        75);</p>
+      <p>//-------------------</p>
+      <p><font color="#0000cc">Вопрос. Как выровнять данные в ячейке ?</font></p>
+      <p> // Выравнивам данные в ячейке<br>
+        Sh.OlePropertyGet("Cells", 1,1).OlePropertySet("HorizontalAlignment", 
+        4);<br>
+        // где 4 - по левому краю, 2 - по правому, 3 - по центру)</p>
+      <p> // или по-другому это можно записать так<br>
+        // Rang = Sh.OlePropertyGet("Cells",1,1);<br>
+        // Rang.OlePropertySet("HorizontalAlignment",4);<br>
+        // и для вертикального выравнивания - VerticalAlignment</p>
+      <p>//-------------------</p>
+      <p><font color="#0000cc">Вопрос. Как установить высоту строки ?</font></p>
+      <p> // устанавливаем высоту 60<br>
+        Rang.OlePropertySet("RowHeight", 60);</p>
+      <p>//-------------------</p>
+      <p><font color="#0000cc">Вопрос. Как установить ширину столбца ?</font></p>
+      <p> // устанавливаем ширину столбца 12<br>
+        Sh.OlePropertyGet("Columns").OlePropertyGet("Item",1).OlePropertySet("ColumnWidth", 
+        12);</p>
+      <p>//-------------------</p>
+      <p><font color="#0000cc">Вопрос. Как установить цвет ячеек ?</font></p>
+      <p> Rang = Sh.OlePropertyGet("Range", "A1:E1");<br>
+        Rang.OlePropertyGet("Interior").OlePropertySet("ColorIndex",4);</p>
+      <p>//-------------------</p>
+      <p><font color="#0000cc">Вопрос. Как задать количество листов в книге ?</font></p>
+      <p> // Определяем количество листов в книге - 1<br>
+        App.OlePropertySet("SheetsInNewWorkbook", 1);</p>
+      <p>//-------------------</p>
+      <p><font color="#0000cc">Вопрос. Как дать название листу ?</font></p>
+      <p> // Даем название нашему листу "Наш лист итогов"<br>
+        Sh = App.OlePropertyGet("Worksheets").OlePropertyGet("Item", 
+        1);<br>
+        Sh.OlePropertySet("Name", "Наш лист итогов");</p>
+      <p>//-------------------</p>
+      <p><font color="#0000cc">Вопрос. Как сохранить получившийся документ ?</font></p>
+      <p> // Не спрашивать о замене файла, если он уже есть<br>
+        App.OlePropertySet("DisplayAlerts", false);</p>
+      <p> // Сохраняем файл как "Firm.xls"<br>
+        App.OlePropertyGet("WorkSheets",1).OleProcedure("SaveAs","Firm.xls");</p>
+      <p>//--------------------</p>
+      <p><font color="#0000cc">Вопрос. Как установить настройки при печати ?</font></p>
+      <p>// Левое и правое поля отступа для печати<br>
+        Sh.OlePropertyGet("PageSetup").OlePropertySet("LeftMargin", 
+        80);<br>
+        Sh.OlePropertyGet("PageSetup").OlePropertySet("RightMargin",20);</p>
+      <p>//--------------------</p>
+      <p><font color="#0000cc">Вопрос. Как распечатать получившийся документ ?</font></p>
+      <p> App.OlePropertyGet("WorkBooks",1).OleProcedure("PrintOut");</p>
+      <p>//--------------------</p>
+      <p><font color="#0000cc">Вопрос. Как закрыть документ Excel ?</font></p>
+      <p> try{<br>
+        App.OlePropertyGet("WorkBooks",1).OleProcedure("Close");<br>
+        }catch(...){<br>
+        ShowMessage("Не забудьте сами закрыть Excel.");<br>
+        }<br>
+        // закрыть сам Excel<br>
+        App.OleProcedure("Quit");</p>
+      <p>//-----------------------------<br>
+        Посмотреть как все это работает и другие возможности<br>
+        для C++Builder 6 полный проект можно скачать и посмотреть <strong><font color="#0000ff"><a href="http://www.cbuilder.ru/WinLesson/ziples/toExcel12.rar">в 
+        работе здесь (15 Кб)</a>.</font></strong></p>
+      <p>Многие спрашивают - <font color="#000099"><strong>как ускорить вывод 
+        в Excel больших массивов данных</strong></font>,<br>
+        слишком медленно все работает. <br>
+        Наиболее идеальный вариант - <font color="#000099"><em>воспользоваться 
+        компонентами XLSReadWrite2</em></font> или аналогичными.<br>
+        Также, в проекте есть пример, как можно немного ускорить такой вывод,<br>
+        для этого при выводе данных можно <em><font color="#000099">не выводить 
+        данные последовательно в каждую ячейку<br>
+        в цикле, а лучше сформировать вариантный массив, и выполнить присвоение 
+        области</font></em> (Range) <br>
+        этого массива, только после этого делая Excel видимым.<br>
+        Также более быстрая работа происходит при использовании<font color="#000099"><em> 
+        библиотеки типов</em>.</font></p>
+      <p>Все замечания и предложения и добавления: support@cbuilder.ru<br>
+        Если Вы используете Excel или Word в работе с C++Builder, <br>
+        присылайте примеры, проекты и интересные решения нам,<br>
+        а также если у вас остались вопросы - спрашивайте.</p>
+      <p><font color="#000066"><strong>В следующем уроке:</strong></font><br>
+        <br>
+        Для облегчения вывода данных в Excel можно использовать шаблоны.<br>
+        Мы рассмотрим работу с шаблонами (.xlt) и использование макросов.</p>
+      <p></p></td>
+  </tr>
+</tbody></table>
+<hr align="center" width="90%">
+<div align="center"> <span class="m2"><a href="mailto:support@cbuilder.ru">support@cbuilder.ru</a></span></div>
+<h5 align="center"><strong> </strong></h5>
+</body></html>
