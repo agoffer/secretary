@@ -280,14 +280,14 @@ object frmMainForm: TfrmMainForm
   object pnlCurrentTeam: TPanel
     Left = 241
     Top = 102
-    Width = 358
+    Width = 543
     Height = 421
     Align = alClient
     TabOrder = 4
     object grboxRequestCompetitorList: TGroupBox
       Left = 1
       Top = 1
-      Width = 356
+      Width = 541
       Height = 381
       Align = alClient
       Caption = #1059#1095#1072#1089#1090#1085#1080#1082#1080' '#1089#1086#1088#1077#1074#1085#1086#1074#1072#1085#1080#1081' ('#1082#1086#1084#1072#1085#1076#1072')'
@@ -296,43 +296,17 @@ object frmMainForm: TfrmMainForm
     object grboxRepresentative: TGroupBox
       Left = 1
       Top = 382
-      Width = 356
+      Width = 541
       Height = 38
       Align = alBottom
       Caption = #1055#1088#1077#1076#1089#1090#1072#1074#1080#1090#1077#1083#1100' '#1082#1086#1084#1072#1085#1076#1099
       TabOrder = 1
     end
   end
-  object pnlStatistic: TPanel
-    Left = 599
-    Top = 102
-    Width = 185
-    Height = 421
-    Align = alRight
-    TabOrder = 5
-    object grboxCurrentRequestStat: TGroupBox
-      Left = 1
-      Top = 1
-      Width = 183
-      Height = 190
-      Align = alTop
-      Caption = #1042#1099#1073#1088#1072#1085#1085#1072#1103' '#1079#1072#1103#1074#1082#1072
-      TabOrder = 0
-    end
-    object grboxAllRequestStat: TGroupBox
-      Left = 1
-      Top = 191
-      Width = 183
-      Height = 190
-      Align = alTop
-      Caption = #1042#1089#1077' '#1087#1086#1089#1090#1091#1087#1080#1074#1096#1080#1077' '#1079#1072#1103#1074#1082#1080
-      TabOrder = 1
-    end
-  end
   object strgrdCompetitorsList: TStringGrid
     Left = 241
     Top = 102
-    Width = 358
+    Width = 543
     Height = 421
     Align = alClient
     Ctl3D = False
@@ -340,13 +314,13 @@ object frmMainForm: TfrmMainForm
     RowCount = 2
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goColSizing, goRowSelect]
     ParentCtl3D = False
-    TabOrder = 6
+    TabOrder = 5
     ColWidths = (
-      118
+      144
       63
-      50
-      51
-      93)
+      74
+      102
+      152)
     RowHeights = (
       24
       24)

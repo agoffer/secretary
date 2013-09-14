@@ -88,7 +88,7 @@ void TCompetitor::makeExtendedTableCurrent(void){
 
 
 TList* TCompetitor::getAll(void){
-
+        return NULL;
 }
 
 TList* TCompetitor::getByRequestId(int requestId){
