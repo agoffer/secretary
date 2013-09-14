@@ -314,7 +314,6 @@ AnsiString selectQuery=
   pers.patronymic, \
   compToCat.shootrank, \
   compToCat.fightWOKnifeRank, \
-  compToCat.fightWKnifeRank, \
   compToCat.commonRank , clb.shortname \
 from \
   CompetitorToCategory compToCat \
@@ -430,13 +429,11 @@ void TdmReportDataSource::fillSummaryReportArray(int orderNum, int competitorInC
         AnsiString commonScore;
         int shootRank = dsCompetitorsDetail->FieldByName("shootrank")->AsInteger;
         int fightWOKnifeRank = dsCompetitorsDetail->FieldByName("fightwokniferank")->AsInteger;
-        int fightWKnifeRank = dsCompetitorsDetail->FieldByName("fightwkniferank")->AsInteger;
 
-        int shootScore = dmCurrentState->getScoreForRank(shootRank);
-        int fightWOKnifeScore = dmCurrentState->getScoreForRank(fightWOKnifeRank);
-        int fightWKnifeScore  = dmCurrentState->getScoreForRank(fightWKnifeRank);
+        int shootScore = dmCurrentState->getScoreForRank(shootRank, 0);
+        int fightWOKnifeScore = dmCurrentState->getScoreForRank(fightWOKnifeRank, 1);
 
-        int score = shootScore + fightWOKnifeScore + fightWKnifeScore;
+        int score = shootScore + fightWOKnifeScore;
         //commonScore = IntToStr();
 
         AnsiString commonRank = dsCompetitorsDetail->FieldByName("commonrank")->AsString;
@@ -456,8 +453,8 @@ void TdmReportDataSource::fillSummaryReportArray(int orderNum, int competitorInC
         categoryArray.PutElement(shootScore, i, 9);              //10
         categoryArray.PutElement(fightWOKnifeRank, i, 10);       //11
         categoryArray.PutElement(fightWOKnifeScore, i, 11);      //12
-        categoryArray.PutElement(fightWKnifeRank, i, 12);        //13
-        categoryArray.PutElement(fightWKnifeScore, i, 13);       //14
+        //categoryArray.PutElement(fightWKnifeRank, i, 12);        //13
+        //categoryArray.PutElement(fightWKnifeScore, i, 13);       //14
 
 
         categoryArray.PutElement(/*commonScore*/ score, i, 14);             //15
@@ -512,7 +509,6 @@ AnsiString selectQuery=
     ctc.commonrank, \
     ctc.shootrank, \
     ctc.fightwokniferank, \
-    ctc.fightwkniferank, \
     req_pers.surname||' '||req_pers.name||' '||req_pers.patronymic as repr_surname\
     from \
      competitor comp \

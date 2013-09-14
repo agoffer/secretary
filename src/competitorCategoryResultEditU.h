@@ -28,9 +28,7 @@ __published:	// IDE-managed Components
     TComboBox *cmboxFightVersion;
     TCheckBox *chboxFemaleCategory;
     TComboBox *cmboxFightWOKnifeRank;
-    TComboBox *cmboxFightWKnifeRank;
     TBitBtn *bbtnClose;
-    TLabel *lblFightWKnifeRank;
     TLabel *lblFightWOKnifeRank;
     TBitBtn *bbtnEnterResult;
     TLabel *lblModifiedShootRank;
@@ -45,11 +43,9 @@ __published:	// IDE-managed Components
     TBitBtn *bbtnAutoCalculateCommonRank;
     TBitBtn *bbtnAtoCalculateShootRank;
     TLabel *lblModifiedFightWOKnifeRank;
-    TLabel *lblModifiedFightWKnifeRank;
     TLabel *lblModifiedCommonRank;
     TStaticText *sttxtShootScore;
     TStaticText *sttxtFightWOKnifeScore;
-    TStaticText *sttxtFightWKnifeScore;
     TStaticText *sttxtCommonScore;
     TBitBtn *bbtnPrintCurrentCategory;
     void __fastcall FormShow(TObject *Sender);
@@ -60,7 +56,6 @@ __published:	// IDE-managed Components
     void __fastcall bbtnEnterResultClick(TObject *Sender);
     void __fastcall cmboxFightWOKnifeRankChange(TObject *Sender);
     void __fastcall cmboxShootRankChange(TObject *Sender);
-    void __fastcall cmboxFightWKnifeRankChange(TObject *Sender);
     void __fastcall cmboxCommonRankChange(TObject *Sender);
     void __fastcall bbtnAtoCalculateShootRankClick(TObject *Sender);
     void __fastcall bbtnAutoCalculateCommonRankClick(TObject *Sender);
@@ -82,10 +77,10 @@ private:	// User declarations
     void calculateShootRanks(TList* compList, int categoryId);
     void calculateCommonRanks(TList *compList, int categoryId);
 
-    void showResultScores(void);          
+    void showResultScores(void);
 
     void setCallback(void);
-    void resetCallback(void); 
+    void resetCallback(void);
 
     //-- Список индексов категориий по ключу (строка представляющая категорию)
     map<AnsiString, TCategory*> categoryIndex;
@@ -95,7 +90,7 @@ private:	// User declarations
     //Текущая, выбранная категория
     TCategory *currentCategory;
     //Текущий список участников с результатами
-    TList *currentCompetitorList; 
+    TList *currentCompetitorList;
 
     //Признак того, что результаты изменялись
     bool resultModified;

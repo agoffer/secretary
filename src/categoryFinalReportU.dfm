@@ -2,7 +2,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
   Left = 238
   Top = 155
   Width = 820
-  Height = 827
+  Height = 784
   Caption = 'categoryFinalReportU'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -244,9 +244,9 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         FontSize = 9
       end
       object qrdbtComments: TQRDBText
-        Left = 672
+        Left = 576
         Top = 0
-        Width = 41
+        Width = 137
         Height = 18
         Frame.Color = clBlack
         Frame.DrawTop = True
@@ -255,9 +255,9 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Frame.DrawRight = True
         Size.Values = (
           47.625
-          1778
+          1524
           0
-          108.479166666667)
+          362.479166666667)
         Alignment = taCenter
         AlignToBand = False
         AutoSize = False
@@ -308,73 +308,8 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         WordWrap = False
         FontSize = 9
       end
-      object qrdbtFightWKRank: TQRDBText
-        Left = 486
-        Top = 0
-        Width = 52
-        Height = 20
-        Frame.Color = clBlack
-        Frame.DrawTop = True
-        Frame.DrawBottom = True
-        Frame.DrawLeft = True
-        Frame.DrawRight = True
-        Size.Values = (
-          52.9166666666667
-          1285.875
-          0
-          137.583333333333)
-        Alignment = taCenter
-        AlignToBand = False
-        AutoSize = False
-        AutoStretch = True
-        Color = clWhite
-        DataSet = dmReportDataSource.ibqRepCategoryFinalCompetitorDetail
-        DataField = 'FIGHTWKNIFERANK'
-        Font.Charset = RUSSIAN_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Times New Roman'
-        Font.Style = []
-        ParentFont = False
-        Transparent = False
-        WordWrap = False
-        FontSize = 9
-      end
-      object qrdbtFightWKScore: TQRDBText
-        Left = 537
-        Top = 0
-        Width = 44
-        Height = 20
-        Frame.Color = clBlack
-        Frame.DrawTop = True
-        Frame.DrawBottom = True
-        Frame.DrawLeft = True
-        Frame.DrawRight = True
-        Size.Values = (
-          52.9166666666667
-          1420.8125
-          0
-          116.416666666667)
-        Alignment = taCenter
-        AlignToBand = False
-        AutoSize = False
-        AutoStretch = True
-        Color = clWhite
-        DataSet = dmReportDataSource.ibqRepCategoryFinalCompetitorDetail
-        DataField = 'FIGHTWKNIFERANK'
-        Font.Charset = RUSSIAN_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -15
-        Font.Name = 'Times New Roman'
-        Font.Style = []
-        OnPrint = qrdbtScorePrint
-        ParentFont = False
-        Transparent = False
-        WordWrap = False
-        FontSize = 11
-      end
       object qrdbtCommonScore: TQRDBText
-        Left = 580
+        Left = 484
         Top = 0
         Width = 52
         Height = 20
@@ -385,7 +320,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Frame.DrawRight = True
         Size.Values = (
           52.9166666666667
-          1534.58333333333
+          1280.58333333333
           0
           137.583333333333)
         Alignment = taCenter
@@ -407,7 +342,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         FontSize = 9
       end
       object qrdbtCommonRank: TQRDBText
-        Left = 631
+        Left = 535
         Top = 0
         Width = 44
         Height = 20
@@ -418,7 +353,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Frame.DrawRight = True
         Size.Values = (
           52.9166666666667
-          1669.52083333333
+          1415.52083333333
           0
           116.416666666667)
         Alignment = taCenter
@@ -465,7 +400,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Font.Height = -15
         Font.Name = 'Times New Roman'
         Font.Style = []
-        OnPrint = qrdbtScorePrint
+        OnPrint = qrdbtFightingScorePrint
         ParentFont = False
         Transparent = False
         WordWrap = False
@@ -498,7 +433,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Font.Height = -15
         Font.Name = 'Times New Roman'
         Font.Style = []
-        OnPrint = qrdbtScorePrint
+        OnPrint = qrdbtShootingScorePrint
         ParentFont = False
         Transparent = False
         WordWrap = False
@@ -661,9 +596,9 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         FontSize = 10
       end
       object qrmComments: TQRMemo
-        Left = 672
+        Left = 576
         Top = 0
-        Width = 41
+        Width = 137
         Height = 100
         Frame.Color = clBlack
         Frame.DrawTop = True
@@ -672,9 +607,9 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Frame.DrawRight = True
         Size.Values = (
           264.583333333333
-          1778
+          1524
           0
-          108.479166666667)
+          362.479166666667)
         Alignment = taCenter
         AlignToBand = False
         AutoSize = False
@@ -683,9 +618,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Lines.Strings = (
           ''
           ''
-          #1055#1088#1080'-'
-          #1084#1110#1090'-'
-          #1082#1080)
+          #1055#1088#1080#1084#1110#1090#1082#1080)
         Transparent = False
         WordWrap = True
         FontSize = 10
@@ -713,7 +646,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Lines.Strings = (
           #1056#1077#1079#1091#1083#1100#1090#1072#1090
           #1079#1072' '#1088#1086#1079#1076#1110#1083#1086#1084
-          '"'#1056#1041' '#1073#1077#1079' '#1061#1047'"')
+          '"'#1056#1091#1082'. '#1073#1086#1081'"')
         Transparent = False
         WordWrap = True
         FontSize = 10
@@ -772,92 +705,10 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         WordWrap = True
         FontSize = 10
       end
-      object qrmFightWKResult: TQRMemo
-        Left = 486
-        Top = 0
-        Width = 95
-        Height = 57
-        Frame.Color = clBlack
-        Frame.DrawTop = True
-        Frame.DrawBottom = True
-        Frame.DrawLeft = True
-        Frame.DrawRight = True
-        Size.Values = (
-          150.8125
-          1285.875
-          0
-          251.354166666667)
-        Alignment = taCenter
-        AlignToBand = False
-        AutoSize = False
-        AutoStretch = False
-        Color = clWhite
-        Lines.Strings = (
-          #1056#1077#1079#1091#1083#1100#1090#1072#1090
-          #1079#1072' '#1088#1086#1079#1076#1110#1083#1086#1084
-          '"'#1056#1041' '#1079' '#1061#1047'"')
-        Transparent = False
-        WordWrap = True
-        FontSize = 10
-      end
-      object qrmFightWKRank: TQRMemo
-        Left = 486
-        Top = 56
-        Width = 52
-        Height = 44
-        Frame.Color = clBlack
-        Frame.DrawTop = True
-        Frame.DrawBottom = True
-        Frame.DrawLeft = True
-        Frame.DrawRight = True
-        Size.Values = (
-          116.416666666667
-          1285.875
-          148.166666666667
-          137.583333333333)
-        Alignment = taCenter
-        AlignToBand = False
-        AutoSize = False
-        AutoStretch = False
-        Color = clWhite
-        Lines.Strings = (
-          ''
-          #1052#1110#1089#1094#1077)
-        Transparent = False
-        WordWrap = True
-        FontSize = 10
-      end
-      object qrmFightWKScore: TQRMemo
-        Left = 537
-        Top = 56
-        Width = 44
-        Height = 44
-        Frame.Color = clBlack
-        Frame.DrawTop = True
-        Frame.DrawBottom = True
-        Frame.DrawLeft = True
-        Frame.DrawRight = True
-        Size.Values = (
-          116.416666666667
-          1420.8125
-          148.166666666667
-          116.416666666667)
-        Alignment = taCenter
-        AlignToBand = False
-        AutoSize = False
-        AutoStretch = False
-        Color = clWhite
-        Lines.Strings = (
-          #1057#1091#1084#1072
-          #1073#1072#1083#1110#1074)
-        Transparent = False
-        WordWrap = True
-        FontSize = 10
-      end
       object qrmCommonResult: TQRMemo
-        Left = 580
+        Left = 486
         Top = 0
-        Width = 95
+        Width = 91
         Height = 57
         Frame.Color = clBlack
         Frame.DrawTop = True
@@ -866,9 +717,9 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Frame.DrawRight = True
         Size.Values = (
           150.8125
-          1534.58333333333
+          1285.875
           0
-          251.354166666667)
+          240.770833333333)
         Alignment = taCenter
         AlignToBand = False
         AutoSize = False
@@ -877,15 +728,15 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Lines.Strings = (
           #1047#1072#1075#1072#1083#1100#1085#1080#1081
           #1088#1077#1079#1091#1083#1100#1090#1072#1090' '#1079#1072
-          #1090#1088#1100#1086#1084#1072' '#1088#1086#1079#1076'.')
+          #1076#1074#1086#1084#1072' '#1088#1086#1079#1076'.')
         Transparent = False
         WordWrap = True
         FontSize = 10
       end
       object qrmCommonScore: TQRMemo
-        Left = 580
+        Left = 486
         Top = 56
-        Width = 52
+        Width = 48
         Height = 44
         Frame.Color = clBlack
         Frame.DrawTop = True
@@ -894,9 +745,9 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Frame.DrawRight = True
         Size.Values = (
           116.416666666667
-          1534.58333333333
+          1285.875
           148.166666666667
-          137.583333333333)
+          127)
         Alignment = taCenter
         AlignToBand = False
         AutoSize = False
@@ -910,7 +761,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         FontSize = 10
       end
       object qrmCommonRank: TQRMemo
-        Left = 631
+        Left = 534
         Top = 56
         Width = 44
         Height = 44
@@ -921,7 +772,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Frame.DrawRight = True
         Size.Values = (
           116.416666666667
-          1669.52083333333
+          1412.875
           148.166666666667
           116.416666666667)
         Alignment = taCenter

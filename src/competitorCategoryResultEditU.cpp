@@ -38,7 +38,6 @@ void TfrmCompetitorCategoryResultEdit::HideResultChange(void){
     //Очистить признак изменения результата
     lblModifiedShootRank->Hide();
     lblModifiedFightWOKnifeRank->Hide();
-    lblModifiedFightWKnifeRank->Hide();
     lblModifiedCommonRank->Hide();
     //Результат текущего участника не изменялся
     resultModified = false;
@@ -66,7 +65,7 @@ void TfrmCompetitorCategoryResultEdit::createCategories(TList *category){
     //список весов и возрастов
     createCategoryIndexFVComboBox(category, cmboxFightVersion, categoryIndex);
     cmboxFightVersion->ItemIndex = 0;
-    createAgeWeightComboBoxByFV(cmboxAvailCategory, category, cmboxFightVersion);  
+    createAgeWeightComboBoxByFV(cmboxAvailCategory, category, cmboxFightVersion);
     cmboxAvailCategory->ItemIndex = 0;
 }
 
@@ -77,10 +76,10 @@ void __fastcall TfrmCompetitorCategoryResultEdit::changeCompetitorList(
 {
     currentCategory = getCategoryByIndex(cmboxAvailCategory,
                         cmboxFightVersion,
-                        categoryIndex); 
+                        categoryIndex);
     ShowCompetitorList(currentCategory);
     //Сменить участника
-    changeCompetitor(); 
+    changeCompetitor();
 
 }
 //---------------------------------------------------------------------------
@@ -89,7 +88,6 @@ void TfrmCompetitorCategoryResultEdit::ShowCompetitorList(TCategory* category){
     if(category == NULL){
         //Список участников отсутствует
         dbgrdCompetitors->DataSource = NULL;
-        cmboxFightWKnifeRank->Clear();
         cmboxFightWOKnifeRank->Clear();
         return;
         }
@@ -97,7 +95,7 @@ void TfrmCompetitorCategoryResultEdit::ShowCompetitorList(TCategory* category){
     //Предварительно удалить старый список участников в категории
     if(currentCompetitorList!=NULL){
         destroyList(currentCompetitorList, etCOMPETITOR);
-        currentCompetitorList = NULL; 
+        currentCompetitorList = NULL;
         }
     currentCompetitorList = dmResultDAO->setCompetitorCategoryResultTable(category->getId());
     if(currentCompetitorList->Count > 0){
@@ -105,14 +103,12 @@ void TfrmCompetitorCategoryResultEdit::ShowCompetitorList(TCategory* category){
         dbgrdCompetitors->DataSource = dmResultDAO->dsCompetitorToCategoryResult;
         //Перестроить список мест, занятых участриками
         createRankList(cmboxFightWOKnifeRank, currentCompetitorList->Count);
-        createRankList(cmboxFightWKnifeRank, currentCompetitorList->Count);
         createRankList(cmboxShootRank, currentCompetitorList->Count);
         createRankList(cmboxCommonRank, currentCompetitorList->Count);
         }
     else{
         //Спрятать список
         dbgrdCompetitors->DataSource = NULL;
-        cmboxFightWKnifeRank->Clear();
         cmboxFightWOKnifeRank->Clear();
         cmboxShootRank->Clear();
         cmboxCommonRank->Clear();
@@ -177,11 +173,9 @@ void TfrmCompetitorCategoryResultEdit::changeCompetitor(void){
 
     //Установить полученный результаты в выпадющем списке
     int fwok = currentCompetitor.result.getFightWOKnifeRank();
-    int fwk = currentCompetitor.result.getFightWKnifeRank();
     int sht = currentCompetitor.result.getShootRank();
     int cmmn = currentCompetitor.result.getCommonRank();
     cmboxFightWOKnifeRank->Text = fwok > 0 ? IntToStr(fwok) : AnsiString("");
-    cmboxFightWKnifeRank->Text = fwk > 0 ? IntToStr(fwk) : AnsiString("");
     cmboxShootRank->Text = sht > 0 ? IntToStr(sht) : AnsiString("");
     cmboxCommonRank->Text = cmmn > 0 ? IntToStr(cmmn) : AnsiString("");
 
@@ -194,22 +188,18 @@ void TfrmCompetitorCategoryResultEdit::changeCompetitor(void){
 void TfrmCompetitorCategoryResultEdit::showResultScores(void){
     //Установить полученный результаты в выпадющем списке
     AnsiString fwok = cmboxFightWOKnifeRank->Text; int ifwok;
-    AnsiString fwk = cmboxFightWKnifeRank->Text;   int ifwk;
     AnsiString sht = cmboxShootRank->Text;         int isht;
     AnsiString cmmn = cmboxCommonRank->Text;       int icmmn;
 
     if(fwok.IsEmpty()){ifwok = 0;}
-    else{ifwok = dmCurrentState->getScoreForRank(StrToInt(fwok));}
-    if(fwk.IsEmpty()){ifwk = 0;}
-    else{ifwk = dmCurrentState->getScoreForRank(StrToInt(fwk));}
+    else{ifwok = dmCurrentState->getScoreForRank(StrToInt(fwok), 1);}
     if(sht.IsEmpty()){isht = 0;}
-    else{isht = dmCurrentState->getScoreForRank(StrToInt(sht));}
+    else{isht = dmCurrentState->getScoreForRank(StrToInt(sht), 0);}
     if(cmmn.IsEmpty()){icmmn = 0;}
-    else{icmmn = ifwok + ifwk + isht;}
+    else{icmmn = ifwok + isht;}
 
     sttxtShootScore->Caption=IntToStr(isht);
     sttxtFightWOKnifeScore->Caption=IntToStr(ifwok);
-    sttxtFightWKnifeScore->Caption=IntToStr(ifwk);
     sttxtCommonScore->Caption=IntToStr(icmmn);
 }
 
@@ -275,19 +265,15 @@ void __fastcall TfrmCompetitorCategoryResultEdit::bbtnEnterResultClick(
 
         //Установить полученный результаты в выпадющем списке
         AnsiString fwok = cmboxFightWOKnifeRank->Text;
-        AnsiString fwk = cmboxFightWKnifeRank->Text;
         AnsiString sht = cmboxShootRank->Text;
         AnsiString cmmn = cmboxCommonRank->Text;
 
         if(fwok.IsEmpty()){fwok = "0";}
-        if(fwk.IsEmpty()){fwk = "0";}
         if(sht.IsEmpty()){sht = "0";}
         if(cmmn.IsEmpty()){cmmn = "0";}
 
         currentCompetitor.result.setFightWOKnifeRank(
                             StrToInt(fwok));
-        currentCompetitor.result.setFightWKnifeRank(
-                            StrToInt(fwk));
         currentCompetitor.result.setShootRank(
                             StrToInt(sht));
         currentCompetitor.result.setCommonRank(
@@ -302,7 +288,6 @@ void __fastcall TfrmCompetitorCategoryResultEdit::bbtnEnterResultClick(
         TResult::setCurrentCompetitorById(currentCompetitorId);
 
         cmboxFightWOKnifeRank->Text = !fwok.AnsiCompare("0") ? AnsiString("") : fwok;
-        cmboxFightWKnifeRank->Text = !fwk.AnsiCompare("0") ? AnsiString("") : fwk;
         cmboxShootRank->Text = !sht.AnsiCompare("0") ? AnsiString("") : sht;
         cmboxCommonRank->Text = !cmmn.AnsiCompare("0") ? AnsiString("") : cmmn;
 
@@ -321,7 +306,7 @@ void __fastcall TfrmCompetitorCategoryResultEdit::cmboxFightWOKnifeRankChange(
     //Результат участника изменился
     resultModified = true;
     lblModifiedFightWOKnifeRank->Show();
-    //Разрешить кнопку записи 
+    //Разрешить кнопку записи
     bbtnEnterResult->Enabled = true;
 }
 //---------------------------------------------------------------------------
@@ -332,21 +317,11 @@ void __fastcall TfrmCompetitorCategoryResultEdit::cmboxShootRankChange(
     //Результат участника изменился
     resultModified = true;
     lblModifiedShootRank->Show();
-    //Разрешить кнопку записи 
+    //Разрешить кнопку записи
     bbtnEnterResult->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TfrmCompetitorCategoryResultEdit::cmboxFightWKnifeRankChange(
-      TObject *Sender)
-{
-    //Результат участника изменился
-    resultModified = true;
-    lblModifiedFightWKnifeRank->Show();
-    //Разрешить кнопку записи 
-    bbtnEnterResult->Enabled = true;
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TfrmCompetitorCategoryResultEdit::cmboxCommonRankChange(
       TObject *Sender)
@@ -468,7 +443,7 @@ void __fastcall TfrmCompetitorCategoryResultEdit::bbtnAutoCalculateCommonRankCli
     //Отобразить результаты заново
     ShowCompetitorList(currentCategory);
 
-    changeCompetitor();  
+    changeCompetitor();
 }
 //---------------------------------------------------------------------------
 
@@ -502,21 +477,7 @@ int btnRes;
             btnRes = MessageDlg("Участник " +
                         competitor->getPerson().getSurname() +
                         " " + competitor->getPerson().getName() +
-                        " не имеет места по РБ без ХО! Продолжить расчет мест?",
-                        mtWarning, TMsgDlgButtons() << mbYes << mbNo, 0);
-            if(btnRes != mrYes){
-                //Остановиться, не выполнять расчет мест
-                return;
-                }
-            }
-
-        //Место по РБ c ХО
-        if(competitor->result.getFightWKnifeRank() <= 0){
-            //Сообщить о том, что участник без результата
-            btnRes = MessageDlg("Участник " +
-                        competitor->getPerson().getSurname() +
-                        " " + competitor->getPerson().getName() +
-                        " не имеет места по РБ c ХО! Продолжить расчет мест?",
+                        " не имеет места по Рукопашному бою! Продолжить расчет мест?",
                         mtWarning, TMsgDlgButtons() << mbYes << mbNo, 0);
             if(btnRes != mrYes){
                 //Остановиться, не выполнять расчет мест
@@ -539,19 +500,15 @@ int btnRes;
 int __fastcall compareCommonResults(void *fstItem, void *secItem){
 //Расчитаем балы для первого участника
 int fstRank =  ((TCompetitor *)fstItem)->result.getShootRank();
-int fstScore = dmCurrentState->getScoreForRank(fstRank);
+int fstScore = dmCurrentState->getScoreForRank(fstRank, 0);
     fstRank =  ((TCompetitor *)fstItem)->result.getFightWOKnifeRank();
-    fstScore += dmCurrentState->getScoreForRank(fstRank);
-    fstRank =  ((TCompetitor *)fstItem)->result.getFightWKnifeRank();
-    fstScore += dmCurrentState->getScoreForRank(fstRank);
+    fstScore += dmCurrentState->getScoreForRank(fstRank, 1);
+
 //Расчитаем балы для второго участника
 int secRank =  ((TCompetitor *)secItem)->result.getShootRank();
-int secScore = dmCurrentState->getScoreForRank(secRank);
+int secScore = dmCurrentState->getScoreForRank(secRank, 0);
     secRank =  ((TCompetitor *)secItem)->result.getFightWOKnifeRank();
-    secScore += dmCurrentState->getScoreForRank(secRank);
-    secRank =  ((TCompetitor *)secItem)->result.getFightWKnifeRank();
-    secScore += dmCurrentState->getScoreForRank(secRank);
-
+    secScore += dmCurrentState->getScoreForRank(secRank, 1);
 
     if( fstScore > secScore ){
         return -1;
@@ -585,7 +542,7 @@ void __fastcall TfrmCompetitorCategoryResultEdit::cmboxFightVersionChange(
     //Поменялась боевая версия для первого списка
     createAgeWeightComboBoxByFV(cmboxAvailCategory, category, cmboxFightVersion);
     cmboxAvailCategory->ItemIndex = 0;
-    changeCompetitorList(Sender);    
+    changeCompetitorList(Sender);
 }
 //---------------------------------------------------------------------------
 

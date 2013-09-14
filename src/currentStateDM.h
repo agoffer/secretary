@@ -32,13 +32,13 @@ private:	// User declarations
     //-- Текущий клуб
     TClub Club;
 
-    //-- Текущая заявка 
+    //-- Текущая заявка
     TRequest Request;
 
     //-- Текущая доступная категория
     TAvailCategory AvailCategory;
 
-    //-- Текущая боевая версия 
+    //-- Текущая боевая версия
     TFightVersion FightVersion;
 
     //--Список боевых версий
@@ -46,8 +46,11 @@ private:	// User declarations
     //-- Индексированный по идетификатору список боевых версий
     map<int, TFightVersion*> fightVersionMap;
 
-    //-- Шкала балов за места на соревновании 
-    map<int, int> scoreRanking;
+    //-- Шкала балов за места на соревновании по стрельбе
+    map<int, int> scoreRankingShooting;
+
+    //-- Шкала балов за места на соревновании по рукопашному бою
+    map<int, int> scoreRankingFighting;
 
     //--Список уровней мастерства
     TList* skillList;
@@ -56,22 +59,22 @@ private:	// User declarations
 
     //-- Список всех заявок по соревнованию
     TList *requestList;
-    //-- Индексированный по идетификатору список заявок 
+    //-- Индексированный по идетификатору список заявок
     map<int, TRequest*> requestMap;
 
     //Список доступных категорий
     TList *allAvailCategoryList;
-    //-- Индексированный по идетификатору список доступных категорий  
+    //-- Индексированный по идетификатору список доступных категорий
     map<int, TAvailCategory*> availCategoryMap;
     TList *femaleAvailCategoryList;
     TList *maleAvailCategoryList;
 
     //-- Список всех категорий, созданных на соревновании
     TList *categoryList;
-    //-- Индексированный по идетификатору список категорий на соревновании 
+    //-- Индексированный по идетификатору список категорий на соревновании
     map<int, TCategory*> categoryMap;
     TList *femaleCategoryList;
-    TList *maleCategoryList; 
+    TList *maleCategoryList;
 
     //-- Список участников не попавших ни в одну категорию
     TList *femaleUncategoryCompetitorList;
@@ -90,7 +93,7 @@ private:	// User declarations
     void createRequestList(TCompetition competition);
 
     //Создать шкалу балов за соревнования
-    void createScoreRankMap(int competitionRank);    
+    void createScoreRankMap(int competitionRank);
 
 
 
@@ -115,11 +118,11 @@ public:		// User declarations
     TClub& getClub(void){return Club;}
     //-- Установить текущую доступную версию
     void setAvailCategory(TAvailCategory availCategory){AvailCategory = availCategory;}
-    //-- Получить текущую доступную версию 
+    //-- Получить текущую доступную версию
     TAvailCategory& getAvailCategory(void){return AvailCategory;}
     //-- Установить текущую боевую версию
     void setFightVersion(TFightVersion fightVersion){FightVersion = fightVersion;}
-    //-- Получить текущую боеву версию 
+    //-- Получить текущую боеву версию
     TFightVersion& getFightVersion(void){return FightVersion;}
     //-- Установить текущую заявку
     void setRequest(TRequest request){Request = request;}
@@ -180,7 +183,8 @@ public:		// User declarations
     void createUncategoryCompetitorList(TCompetition competition);
 
     //Вернуть количество балов, определяемых местом
-    int getScoreForRank(int rank);
+    // disciplineId: 0 стрельба, 1 рукопашный бой
+    int getScoreForRank(int rank, int disciplineId);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TdmCurrentState *dmCurrentState;

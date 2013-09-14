@@ -24,25 +24,12 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
     Align = alClient
     Caption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1091#1095#1072#1089#1090#1085#1080#1082#1072
     TabOrder = 0
-    object lblFightWKnifeRank: TLabel
-      Left = 62
-      Top = 400
-      Width = 317
-      Height = 20
-      Caption = #1052#1077#1089#1090#1086'  '#1087#1086' '#1073#1086#1103#1084' '#1089' '#1093#1086#1083#1086#1076#1085#1099#1084' '#1086#1088#1091#1078#1080#1077#1084':'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
     object lblFightWOKnifeRank: TLabel
-      Left = 48
+      Left = 136
       Top = 360
-      Width = 329
+      Width = 243
       Height = 20
-      Caption = #1052#1077#1089#1090#1086'  '#1087#1086' '#1073#1086#1103#1084' '#1073#1077#1079' '#1093#1086#1083#1086#1076#1085#1086#1075#1086' '#1086#1088#1091#1078#1080#1103':'
+      Caption = #1052#1077#1089#1090#1086'  '#1087#1086' '#1088#1091#1082#1086#1087#1072#1096#1085#1086#1084#1091' '#1073#1086#1102':'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -78,7 +65,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
     end
     object lblCommonRank: TLabel
       Left = 102
-      Top = 440
+      Top = 400
       Width = 276
       Height = 20
       Caption = #1054#1073#1097#1077#1077' '#1084#1077#1089#1090#1086' '#1079#1072' '#1089#1086#1088#1077#1074#1085#1086#1074#1072#1085#1080#1077':'
@@ -102,22 +89,9 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object lblModifiedFightWKnifeRank: TLabel
-      Left = 544
-      Top = 396
-      Width = 12
-      Height = 29
-      Caption = '*'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -24
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
     object lblModifiedCommonRank: TLabel
       Left = 544
-      Top = 436
+      Top = 396
       Width = 12
       Height = 29
       Caption = '*'
@@ -228,31 +202,13 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
           Title.Alignment = taCenter
-          Title.Caption = #1056#1041' '#1073#1077#1079' '#1061#1054
+          Title.Caption = #1056#1091#1082'. '#1073#1086#1081
           Title.Font.Charset = DEFAULT_CHARSET
           Title.Font.Color = clWindowText
           Title.Font.Height = -11
           Title.Font.Name = 'MS Sans Serif'
           Title.Font.Style = [fsBold]
-          Width = 65
-          Visible = True
-        end
-        item
-          Alignment = taCenter
-          Expanded = False
-          FieldName = 'FIGHTWKNIFERANK'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'MS Sans Serif'
-          Font.Style = [fsBold]
-          Title.Alignment = taCenter
-          Title.Caption = #1056#1041' '#1089' '#1061#1054
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clWindowText
-          Title.Font.Height = -11
-          Title.Font.Name = 'MS Sans Serif'
-          Title.Font.Style = [fsBold]
+          Width = 73
           Visible = True
         end
         item
@@ -270,7 +226,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
           Title.Font.Height = -11
           Title.Font.Name = 'MS Sans Serif'
           Title.Font.Style = [fsBold, fsItalic]
-          Width = 70
+          Width = 79
           Visible = True
         end
         item
@@ -284,7 +240,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
           Title.Font.Height = -11
           Title.Font.Name = 'MS Sans Serif'
           Title.Font.Style = [fsBold, fsItalic]
-          Width = 90
+          Width = 100
           Visible = True
         end
         item
@@ -302,7 +258,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
           Title.Font.Height = -11
           Title.Font.Name = 'MS Sans Serif'
           Title.Font.Style = [fsBold]
-          Width = 51
+          Width = 93
           Visible = True
         end>
     end
@@ -402,29 +358,6 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
         '5'
         '6')
     end
-    object cmboxFightWKnifeRank: TComboBox
-      Left = 384
-      Top = 397
-      Width = 65
-      Height = 28
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ItemHeight = 20
-      ParentFont = False
-      TabOrder = 3
-      OnChange = cmboxFightWKnifeRankChange
-      Items.Strings = (
-        ''
-        '1'
-        '2'
-        '3'
-        '4'
-        '5'
-        '6')
-    end
     object bbtnClose: TBitBtn
       Left = 688
       Top = 440
@@ -432,7 +365,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Height = 25
       Cancel = True
       Caption = '&'#1042#1099#1081#1090#1080
-      TabOrder = 4
+      TabOrder = 3
       OnClick = bbtnCloseClick
       Glyph.Data = {
         DE010000424DDE01000000000000760000002800000024000000120000000100
@@ -459,7 +392,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Width = 83
       Height = 25
       Caption = #1047#1072#1087#1080#1089#1072#1090#1100
-      TabOrder = 5
+      TabOrder = 4
       OnClick = bbtnEnterResultClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -483,7 +416,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Height = 40
       Align = alTop
       Caption = #1056#1077#1079#1091#1083#1100#1090#1072#1090#1099' '#1076#1083#1103' '#1091#1095#1072#1089#1090#1085#1080#1082#1072':'
-      TabOrder = 6
+      TabOrder = 5
       object dbtxtSurname: TDBText
         Left = 148
         Top = 10
@@ -539,7 +472,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Font.Style = [fsBold]
       ItemHeight = 20
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 6
       OnChange = cmboxShootRankChange
       Items.Strings = (
         ''
@@ -552,7 +485,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
     end
     object cmboxCommonRank: TComboBox
       Left = 384
-      Top = 437
+      Top = 397
       Width = 65
       Height = 28
       Font.Charset = DEFAULT_CHARSET
@@ -562,7 +495,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Font.Style = [fsBold, fsItalic]
       ItemHeight = 20
       ParentFont = False
-      TabOrder = 8
+      TabOrder = 7
       OnChange = cmboxCommonRankChange
       Items.Strings = (
         ''
@@ -579,7 +512,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Width = 209
       Height = 33
       Caption = #1056#1072#1089#1095#1080#1090#1072#1090#1100' '#1084#1077#1089#1090#1072' '#1079#1072' '#1089#1086#1088#1077#1074#1085#1086#1074#1072#1085#1080#1077
-      TabOrder = 9
+      TabOrder = 8
       OnClick = bbtnAutoCalculateCommonRankClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -604,7 +537,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       BiDiMode = bdLeftToRight
       Caption = #1056#1072#1089#1095#1080#1090#1072#1090#1100' '#1084#1077#1089#1090#1072' '#1087#1086' '#1089#1090#1088#1077#1083#1100#1073#1077'        '
       ParentBiDiMode = False
-      TabOrder = 10
+      TabOrder = 9
       OnClick = bbtnAtoCalculateShootRankClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -639,7 +572,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Font.Style = [fsBold]
       ParentBiDiMode = False
       ParentFont = False
-      TabOrder = 11
+      TabOrder = 10
     end
     object sttxtFightWOKnifeScore: TStaticText
       Left = 464
@@ -659,31 +592,11 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Font.Style = [fsBold]
       ParentBiDiMode = False
       ParentFont = False
-      TabOrder = 12
-    end
-    object sttxtFightWKnifeScore: TStaticText
-      Left = 464
-      Top = 400
-      Width = 70
-      Height = 24
-      Alignment = taCenter
-      AutoSize = False
-      BevelInner = bvSpace
-      BevelKind = bkSoft
-      BiDiMode = bdRightToLeftReadingOnly
-      Caption = '000000'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentFont = False
-      TabOrder = 13
+      TabOrder = 11
     end
     object sttxtCommonScore: TStaticText
       Left = 464
-      Top = 438
+      Top = 398
       Width = 70
       Height = 24
       Alignment = taCenter
@@ -699,7 +612,7 @@ object frmCompetitorCategoryResultEdit: TfrmCompetitorCategoryResultEdit
       Font.Style = [fsBold, fsItalic]
       ParentBiDiMode = False
       ParentFont = False
-      TabOrder = 14
+      TabOrder = 12
     end
   end
 end

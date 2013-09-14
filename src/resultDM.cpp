@@ -30,7 +30,7 @@ AnsiString selectQueryResult =
 AnsiString selectQueryCompetitorToCategory =
 "select \
       fightWOKnifeRank, fightWOKnifeScore, \
-      fightWKnifeRank, fightWKnifeScore, shootRank, commonRank \
+      shootRank, commonRank \
  from CompetitorToCategory res where res.competitorId = :competitorId and \
  res.categoryId = :categoryId";
 
@@ -40,8 +40,6 @@ AnsiString selectQueryCompetitorToCategory =
     result.setShootScore(-1);
     result.setFightWOKnifeRank(0);
     result.setFightWOKnifeScore(-1);
-    result.setFightWKnifeRank(0);
-    result.setFightWKnifeScore(-1);
     result.setCommonRank(0);
 
 
@@ -72,10 +70,8 @@ AnsiString selectQueryCompetitorToCategory =
         if(ibqResult->RecordCount > 0){
             result.setFightWOKnifeRank(ibqResult->FieldByName("fightWOKnifeRank")->AsInteger);
             result.setFightWOKnifeScore(ibqResult->FieldByName("fightWOKnifeScore")->AsInteger);
-            result.setFightWKnifeRank(ibqResult->FieldByName("fightWKnifeRank")->AsInteger);
-            result.setFightWKnifeScore(ibqResult->FieldByName("fightWKnifeScore")->AsInteger);
             result.setCommonRank(ibqResult->FieldByName("commonRank")->AsInteger);
-            result.setShootRank(ibqResult->FieldByName("shootRank")->AsInteger);            
+            result.setShootRank(ibqResult->FieldByName("shootRank")->AsInteger);
             }
 
         //Закрыть множестов
@@ -98,14 +94,14 @@ AnsiString searchQueryResult =
 AnsiString updateQueryCompetitorToCategory =
 "update CompetitorToCategory set fightWOKnifeRank = :fightWOKnifeRank, \
  shootRank = :shootRank,\
- fightWOKnifeScore = :fightWOKnifeScore, fightWKnifeRank = :fightWKnifeRank, \
- fightWKnifeScore = :fightWKnifeScore, commonRank = :commonRank\
+ fightWOKnifeScore = :fightWOKnifeScore, \
+ commonRank = :commonRank\
  where competitorId = :competitorId and categoryId = :categoryId";
 AnsiString insertQueryCompetitorToCategory =
 "insert into CompetitorToCategory (competitorId, categoryId, fightWOKnifeRank, \
-  fightWOKnifeScore, fightWKnifeRank, fightWKnifeScore, shootRank, commonRank) \
+  fightWOKnifeScore, shootRank, commonRank) \
  values(:competitorId, :categoryId, :fightWOKnifeRank, :fightWOKnifeScore, \
- :fightWKnifeRank, :fightWKnifeScore, :shootRank, :commonRank)";
+ :shootRank, :commonRank)";
 
 AnsiString searchQueryCompetitorToCategory =
 "select competitorId from CompetitorToCategory where competitorId = :competitorId \
@@ -166,8 +162,6 @@ int recordCountResult;
         ibqResult->ParamByName("categoryId")->AsInteger = categoryId;
         ibqResult->ParamByName("fightWOKnifeRank")->AsInteger = result.getFightWOKnifeRank();
         ibqResult->ParamByName("fightWOKnifeScore")->AsInteger = result.getFightWOKnifeScore();
-        ibqResult->ParamByName("fightWKnifeRank")->AsInteger = result.getFightWKnifeRank();
-        ibqResult->ParamByName("fightWKnifeScore")->AsInteger = result.getFightWKnifeScore();
         ibqResult->ParamByName("shootRank")->AsInteger = result.getShootRank();
         ibqResult->ParamByName("commonRank")->AsInteger = result.getCommonRank();
 
@@ -188,7 +182,7 @@ TList* TdmResultDAO::setCompetitorCategoryResultTable(int categoryId){
         }
     ibqCompetitorToCategoryResultTable->ParamByName("categoryId")->AsInteger = categoryId;
     ibqCompetitorToCategoryResultTable->Open();
-    //Создадим список участников 
+    //Создадим список участников
     TList * result = new TList();
     result->Clear();
     while(!ibqCompetitorToCategoryResultTable->Eof){
@@ -201,7 +195,6 @@ TList* TdmResultDAO::setCompetitorCategoryResultTable(int categoryId){
          competitor->result.setShootScore(ibqCompetitorToCategoryResultTable->FieldByName("shootScore")->AsInteger);
          competitor->result.setShootRank(ibqCompetitorToCategoryResultTable->FieldByName("shootRank")->AsInteger);
          competitor->result.setFightWOKnifeRank(ibqCompetitorToCategoryResultTable->FieldByName("fightWOKnifeRank")->AsInteger);
-         competitor->result.setFightWKnifeRank(ibqCompetitorToCategoryResultTable->FieldByName("fightWKnifeRank")->AsInteger);
 
          //Фамилия имя участника
          TPerson person;
@@ -254,12 +247,14 @@ void TdmResultDAO::setCurrentCompetitorByIdFromTable(int competitorId){
         }
 }
 
-void TdmResultDAO::getScoreRanking(map<int, int> &scoreRank, int competitionRank){
+void TdmResultDAO::getScoreRanking(map<int, int> &scoreRank, int competitionRank, int disciplineId){
 AnsiString selectQuery =
-"select rank, score from ScoreRanking where competitionRankId = :competitionRankId";
+"select rank, score from ScoreRanking where competitionRankId = :competitionRankId and disciplineId = :disciplineId";
     ibqResult->SQL->Clear();
     ibqResult->SQL->Add(selectQuery);
     ibqResult->ParamByName("competitionRankId")->AsInteger = competitionRank;
+    ibqResult->ParamByName("disciplineId")->AsInteger = disciplineId;
+
     //Получить записи из базы данных
     ibqResult->Open();
     ibqResult->First();

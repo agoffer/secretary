@@ -46,8 +46,9 @@ public:		// User declarations
     //-- Сделать текущей запись для участника с заданным идентификатором
     void setCurrentCompetitorByIdFromTable(int competitorId);
 
-    //-- Получить шкалу балов для соревнования 
-    void getScoreRanking(map<int, int> &scoreRank, int competitionRank);
+    //-- Получить шкалу балов для соревнования
+    // disciplineId : 1 рукопашный бой, 0 стрельба
+    void getScoreRanking(map<int, int> &scoreRank, int competitionRank, int disciplineId);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TdmResultDAO *dmResultDAO;

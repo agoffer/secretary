@@ -26,14 +26,12 @@ private:
     //Стрельба
     int shootScore;
     int shootRank;
-    //Рукопашный бой с холодным оружием
-    int fightWKnifeScore;
-    int fightWKnifeRank;
+
     //Рукопашный бой без холодного оружия
     int fightWOKnifeScore;
     int fightWOKnifeRank;
 
-    //Общий результат соревнований для участника в категории 
+    //Общий результат соревнований для участника в категории
     int commonRank;
 
     //Для случая, когда результат получен в зависимости от категории
@@ -47,12 +45,10 @@ public:
         commonRank = 0;
         shootScore = -1;
         shootRank = 0;
-        fightWKnifeScore = -1;
-        fightWKnifeRank = 0;
         fightWOKnifeScore = -1;
         fightWOKnifeRank = 0;
 
-        categoryId = 0; 
+        categoryId = 0;
     }
     //-- Деструктор
     ~TResult(void);
@@ -74,8 +70,9 @@ public:
     static int getCurrentCompetitorId(void);
     static void setCurrentCompetitorById(int competitorId);
 
-    //-- Получить шкалу балов для соревнований 
-    static void getScoreRanking(map<int, int> & scoreRank, int competitionRank);
+    //-- Получить шкалу балов для соревнований.
+    // disciplineId: 1 рукопашный бой, 2 стрельба
+    static void getScoreRanking(map<int, int> & scoreRank, int competitionRank, int disciplineId);
 
 
     //Кросс
@@ -86,11 +83,6 @@ public:
     void setShootScore(int inShootScore){shootScore = inShootScore;}
     int getShootRank(void){return shootRank;}
     void setShootRank(int inShootRank){shootRank = inShootRank;}
-    //Рукопашный бой с холодным оружием
-    int getFightWKnifeScore(void){return fightWKnifeScore;}
-    void setFightWKnifeScore(int inFightWKnifeScore){fightWKnifeScore = inFightWKnifeScore;}
-    int getFightWKnifeRank(void){return fightWKnifeRank;}
-    void setFightWKnifeRank(int inFightWKnifeRank){fightWKnifeRank = inFightWKnifeRank;}
     //Рукопашный бой без холодного оружия
     int getFightWOKnifeScore(void){return fightWOKnifeScore;}
     void setFightWOKnifeScore(int inFightWOKnifeScore){fightWOKnifeScore = inFightWOKnifeScore;}
@@ -99,7 +91,7 @@ public:
     //Получить категорию, для которой хранятся результаты
     int getCategoryId(void){return categoryId;}
 
-    //Общий результат соревнований, для участника в категории 
+    //Общий результат соревнований, для участника в категории
     int getCommonRank(void){return commonRank;}
     void setCommonRank(int inCommonRank){commonRank = inCommonRank;}
 

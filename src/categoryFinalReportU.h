@@ -53,20 +53,17 @@ __published:	// IDE-managed Components
     TQRMemo *qrmFightWOKResult;
     TQRMemo *qrmFightWOKRank;
     TQRMemo *qrmFightWOKScore;
-    TQRMemo *qrmFightWKResult;
-    TQRMemo *qrmFightWKRank;
-    TQRMemo *qrmFightWKScore;
     TQRMemo *qrmCommonResult;
     TQRMemo *qrmCommonScore;
     TQRMemo *qrmCommonRank;
     TQRDBText *qrdbtFightWOKRank;
-    TQRDBText *qrdbtFightWKRank;
-    TQRDBText *qrdbtFightWKScore;
     TQRDBText *qrdbtCommonScore;
     TQRDBText *qrdbtCommonRank;
     TQRDBText *qrdbtFightWOKScore;
     TQRDBText *qrdbtShootScore;
-    void __fastcall qrdbtScorePrint(TObject *sender,
+    void __fastcall qrdbtShootingScorePrint(TObject *sender,
+          AnsiString &Value);
+    void __fastcall qrdbtFightingScorePrint(TObject *sender,
           AnsiString &Value);
     void __fastcall qrdbtCommonScorePrint(TObject *sender,
           AnsiString &Value);

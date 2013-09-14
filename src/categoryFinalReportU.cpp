@@ -18,11 +18,19 @@ __fastcall TfrmCategoryFinalReport::TfrmCategoryFinalReport(TComponent* Owner)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TfrmCategoryFinalReport::qrdbtScorePrint(
+void __fastcall TfrmCategoryFinalReport::qrdbtShootingScorePrint(
       TObject *sender, AnsiString &Value)
 {
     //ѕосчитать значение балов, за место и отобразить в протоколе
-    Value = IntToStr(dmCurrentState->getScoreForRank(StrToInt(Value)));
+    Value = IntToStr(dmCurrentState->getScoreForRank(StrToInt(Value), 0));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCategoryFinalReport::qrdbtFightingScorePrint(
+      TObject *sender, AnsiString &Value)
+{
+    //ѕосчитать значение балов, за место и отобразить в протоколе
+    Value = IntToStr(dmCurrentState->getScoreForRank(StrToInt(Value), 1));
 }
 //---------------------------------------------------------------------------
 
@@ -32,17 +40,13 @@ void __fastcall TfrmCategoryFinalReport::qrdbtCommonScorePrint(
     int shootScore =
     dmCurrentState->getScoreForRank(
     dmReportDataSource->ibqRepCategoryFinalCompetitorDetail->FieldByName("shootRank")->AsInteger
-                                                   );
+                                                   , 0);
     int fightWOKScore =
     dmCurrentState->getScoreForRank(
     dmReportDataSource->ibqRepCategoryFinalCompetitorDetail->FieldByName("fightWOKnifeRank")->AsInteger
-                                                   );
-    int fightWKScore =
-    dmCurrentState->getScoreForRank(
-    dmReportDataSource->ibqRepCategoryFinalCompetitorDetail->FieldByName("fightWKnifeRank")->AsInteger
-                                                   );
+                                                   , 1);
 
-    Value = IntToStr(shootScore + fightWOKScore + fightWKScore);
+    Value = IntToStr(shootScore + fightWOKScore);
 }
 //---------------------------------------------------------------------------
 
@@ -54,7 +58,7 @@ void __fastcall TfrmCategoryFinalReport::qrdbtFemalePrint(TObject *sender,
         }
     else{
         Value = "";
-        }    
+        }
 }
 //---------------------------------------------------------------------------
 
@@ -64,6 +68,7 @@ void TfrmCategoryFinalReport::PreviewFinalProtocols(TList *categories){
     //Ќапечатать протоколы категорий
     qrCategory->Preview();
 }
+
 
 
 

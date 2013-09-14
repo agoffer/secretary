@@ -59,8 +59,11 @@ void TdmCurrentState::setCompetition(TCompetition competition){
 
 void TdmCurrentState::createScoreRankMap(int competitionRank){
     //Очистить, если существуют данные 
-    scoreRanking.clear();
-    TResult::getScoreRanking(scoreRanking, competitionRank); 
+    scoreRankingShooting.clear();
+    scoreRankingFighting.clear();
+    TResult::getScoreRanking(scoreRankingShooting, competitionRank, 0);
+    TResult::getScoreRanking(scoreRankingFighting, competitionRank, 1);
+
 }
 
 
@@ -129,7 +132,7 @@ void TdmCurrentState::createCategoryList(TCompetition competition){
     //Добавим категории в индексированный список
     for(int i=0; i < categoryList->Count; i++){
         TCategory* current = (TCategory*)categoryList->Items[i];
-        //Разнесем по женским и мужским категориям 
+        //Разнесем по женским и мужским категориям
         if(current->getAvailCategory().getFemale())
             //Добавим в список женских категорий
             femaleCategoryList->Add(current);
@@ -284,9 +287,16 @@ TCategory *TdmCurrentState::getCategoryById(int categoryId){
 }
 
 
-int TdmCurrentState::getScoreForRank(int rank){
-    //Отыскать балы по шкале 
-    int score = scoreRanking[rank];
+int TdmCurrentState::getScoreForRank(int rank, int disciplineId){
+    int score = 0;
+
+    //Отыскать балы по шкале
+    // стрельба
+    if(disciplineId == 0) {
+        score = scoreRankingShooting[rank];
+    } else if (disciplineId == 1) {
+        score = scoreRankingFighting[rank];
+    }
     return score;  
 }
 

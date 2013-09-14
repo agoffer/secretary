@@ -40,10 +40,9 @@ void TResult::setCurrentCompetitorById(int competitorId){
     return dmResultDAO->setCurrentCompetitorByIdFromTable(competitorId);
 }
 
-void TResult::getScoreRanking(map<int, int> &scoreRank, int competitionRank){
-    dmResultDAO->getScoreRanking(scoreRank, competitionRank);
+void TResult::getScoreRanking(map<int, int> &scoreRank, int competitionRank, int disciplineId){
+    dmResultDAO->getScoreRanking(scoreRank, competitionRank, disciplineId);
 }
-
 
 TResult::~TResult(void){
 
