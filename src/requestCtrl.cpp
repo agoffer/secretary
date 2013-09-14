@@ -65,7 +65,7 @@ void TRequest::makeCurrent(void){
 
 
 TList* TRequest::getAll(void){
-
+        return NULL;
 }
 
 void TRequest::deleteById(int requestId){

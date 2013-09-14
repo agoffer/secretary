@@ -54,7 +54,7 @@ void TClub::makeCurrent(void){
 
 
 TList* TClub::getAll(void){
-
+        return NULL;
 }
 
 

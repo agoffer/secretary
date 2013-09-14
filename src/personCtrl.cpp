@@ -45,7 +45,7 @@ void TPerson::store(void){
 }
 
 TPerson* TPerson::getAll(int &reccount){
-
+        return NULL;
 }
 
 TPerson TPerson::getCurrent(void){

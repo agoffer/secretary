@@ -48,9 +48,6 @@ __published:	// IDE-managed Components
     TPanel *pnlCurrentTeam;
     TGroupBox *grboxRequestCompetitorList;
     TGroupBox *grboxRepresentative;
-    TPanel *pnlStatistic;
-    TGroupBox *grboxCurrentRequestStat;
-    TGroupBox *grboxAllRequestStat;
     TToolButton *tlbtnNewCompetition;
     TToolButton *tlbtnArchiveCompetition;
     TToolButton *tlsprCompReq;

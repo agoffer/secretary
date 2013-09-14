@@ -128,7 +128,7 @@ void TCategory::makeCurrent(void){
 
 
 TList* TCategory::getAll(void){
-
+        return NULL;
 }
 
 //-- Вернуть все категории (в расширенной форме), для текущих соревнований
