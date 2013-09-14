@@ -10,3 +10,12 @@
 *.lai
 *.la
 *.a
+
+#Borland specific configuration
+*.~*
+*.ddp
+*.exe
+*.mak
+*.tds
+src/obj
+src/database
