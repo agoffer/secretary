@@ -453,14 +453,12 @@ void TdmReportDataSource::fillSummaryReportArray(int orderNum, int competitorInC
         categoryArray.PutElement(shootScore, i, 9);              //10
         categoryArray.PutElement(fightWOKnifeRank, i, 10);       //11
         categoryArray.PutElement(fightWOKnifeScore, i, 11);      //12
-        //categoryArray.PutElement(fightWKnifeRank, i, 12);        //13
-        //categoryArray.PutElement(fightWKnifeScore, i, 13);       //14
 
 
-        categoryArray.PutElement(/*commonScore*/ score, i, 14);             //15
-        categoryArray.PutElement(commonRank, i, 15);              //16
-         categoryArray.PutElement("", i, 16);                     //17
-        categoryArray.PutElement(representer, i, 17);             //18
+        categoryArray.PutElement(/*commonScore*/ score, i, 12);             //13
+        categoryArray.PutElement(commonRank, i, 13);              //14
+         categoryArray.PutElement("", i, 14);                     //15
+        categoryArray.PutElement(representer, i, 15);             //16
 
         dsCompetitorsDetail->Next();
         }

@@ -13,6 +13,7 @@
 
 #Borland specific configuration
 *.~*
+*.*~
 *.ddp
 *.exe
 *.mak
