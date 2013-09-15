@@ -3,6 +3,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
   Top = 155
   Width = 820
   Height = 784
+  VertScrollBar.Position = 64
   Caption = 'categoryFinalReportU'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,7 +17,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
   TextHeight = 13
   object qrCategory: TQuickRep
     Left = 0
-    Top = -5
+    Top = -69
     Width = 794
     Height = 1123
     Frame.Color = clBlack
@@ -646,7 +647,7 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         Lines.Strings = (
           #1056#1077#1079#1091#1083#1100#1090#1072#1090
           #1079#1072' '#1088#1086#1079#1076#1110#1083#1086#1084
-          '"'#1056#1091#1082'. '#1073#1086#1081'"')
+          '"'#1042#1089#1077#1089#1090'. '#1073#1110#1081'"')
         Transparent = False
         WordWrap = True
         FontSize = 10
@@ -939,8 +940,8 @@ object frmCategoryFinalReport: TfrmCategoryFinalReport
         AutoSize = False
         AutoStretch = False
         Caption = 
-          '       '#1047#1074#1077#1076#1077#1085#1080#1081'   '#1087#1088#1086#1090#1086#1082#1086#1083'   '#8470' 2   '#1079#1084#1072#1075#1072#1085#1100' '#1079' "'#1041#1086#1081#1086#1074#1086#1075#1086' '#1073#1072#1075#1072#1090#1086#1073#1086#1088 +
-          #1089#1090#1074#1072'"        ('#1079#1072' '#1088#1077#1079#1091#1083#1100#1090#1072#1090#1072#1084#1080' '#1079#1084#1072#1075#1072#1085#1100'  '#1079'  '#1090#1088#1100#1086#1093'  '#1088#1086#1079#1076'i'#1083'i'#1074')'
+          '       '#1047#1074#1077#1076#1077#1085#1080#1081'   '#1087#1088#1086#1090#1086#1082#1086#1083'   '#8470' 2   '#1079#1084#1072#1075#1072#1085#1100' '#1079' "'#1041#1086#1081#1086#1074#1086#1075#1086' '#1076#1074#1086#1073#1086#1088#1089#1090#1074 +
+          #1072'"           ('#1079#1072' '#1088#1077#1079#1091#1083#1100#1090#1072#1090#1072#1084#1080' '#1079#1084#1072#1075#1072#1085#1100'  '#1079'  '#1076#1074#1086#1093'  '#1088#1086#1079#1076'i'#1083'i'#1074')'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

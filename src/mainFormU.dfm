@@ -442,6 +442,7 @@ object frmMainForm: TfrmMainForm
       end
       object miCompetitionRank: TMenuItem
         Caption = #1057#1090#1072#1090#1091#1089' '#1089#1086#1088#1077#1074#1085#1086#1074#1072#1085#1080#1081'...'
+        Visible = False
         OnClick = miCompetitionRankClick
       end
       object miAvailableCategory: TMenuItem
@@ -451,10 +452,12 @@ object frmMainForm: TfrmMainForm
       object miSkill: TMenuItem
         Caption = #1059#1088#1086#1074#1077#1085#1100' '#1084#1072#1089#1090#1077#1088#1089#1090#1074#1072'...'
         Enabled = False
+        Visible = False
       end
       object miFightVersion: TMenuItem
         Caption = '"'#1041#1086#1077#1074#1072#1103'" '#1074#1077#1088#1089#1080#1103'...'
         Enabled = False
+        Visible = False
       end
     end
     object miExit: TMenuItem

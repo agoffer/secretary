@@ -7,6 +7,7 @@ object dmAvailCategoryDAO: TdmAvailCategoryDAO
   object ibqAvailCategoryAll: TIBQuery
     Database = dmDataSource.ibdbSecretaryDB
     Transaction = dmDataSource.ibtrSecretaryDB
+    Active = True
     BufferChunks = 1000
     CachedUpdates = False
     SQL.Strings = (
@@ -17,11 +18,12 @@ object dmAvailCategoryDAO: TdmAvailCategoryDAO
   object ibqAvailCategory: TIBQuery
     Database = dmDataSource.ibdbSecretaryDB
     Transaction = dmDataSource.ibtrSecretaryDB
+    Active = True
     BufferChunks = 1000
     CachedUpdates = False
     SQL.Strings = (
       'select * from SKILL')
-    Left = 56
+    Left = 80
     Top = 72
   end
   object dsAvailCategoryTable: TDataSource
